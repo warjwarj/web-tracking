@@ -1,6 +1,4 @@
-const initialise = require("../../passport-config");
-
-const map = L.map('map').setView([51.505, -0.09], 10);
+const map = L.map('map').setView([51.505, -0.09], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -8,15 +6,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let markers = []
-let currentdata = []
-  
-function updateMarkers(data){
-  data.forEach(v => {
-    const m = L.marker([v.latitude, v.longitude])
-    m.bindPopup(`Reg: ${v.registration}, Heading: ${v.heading}, Speed: ${v.speed}, Lat: ${v.latitude}, Long: ${v.longitude}`)
-    markers.push(m)
-  });
-}
+let vlist = []
+
 
 // find if an object is already in array - only looking at the reg so if reg matches retuirns true
 // if this return true then you want to update because the value has changed
@@ -38,7 +29,8 @@ async function callApi(){
   return data
 }
 
-function updateVList(newdata, currentdata){
+// update the global ist of vehicle data
+function updatevlist(newdata, currentdata){
   newdata.forEach(element => {
     if (objInArr(element, currentdata)){
       currentdata[element.registration] = element
@@ -48,17 +40,24 @@ function updateVList(newdata, currentdata){
   });
 }
 
-
-function drawMarkers(){
-
+// take the values from global vlist and use them to create markers, put in markers array
+function updatemarkers(currentdata, markerlist){
+  function drawMarker(v){
+    m = L.marker([v.latitude, v.longitude])
+    m.bindPopup(`Reg: ${v.registration}, Heading: ${v.heading}, Speed: ${v.speed}, Lat: ${v.latitude}, Long: ${v.longitude}`)
+    return m
+  }
+  currentdata.forEach(v => {
+    markerlist.length = 0
+    markerlist.push(drawMarker(v).addTo(map))
+  });
 }
 
 // handle the data returned by the api call
 // assume data is an array of objects
-function initialise(newd, currentd){
-
-
-  updateVList(newd, currentd)
+function refresh(newdata, currentdata){
+  updatevlist(newdata, currentdata)
+  updatemarkers(currentdata, markers)
 }
 
 
@@ -69,14 +68,14 @@ async function timerFunc(timeinseconds){
   }
   while (true){
     callApi().then(
-      data => updateMarkers(data)
+      data => refresh(data, vlist)
     )
     console.log("refreshed")
-    await sleep(timeinseconds * 1000)
+    await sleep(60000)
   }
 }
 
-// timerFunc(60)
+timerFunc()
 
 
 
