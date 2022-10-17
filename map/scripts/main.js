@@ -38,24 +38,27 @@ async function callApi(){
   return data
 }
 
+function updateVList(newdata, currentdata){
+  newdata.forEach(element => {
+    if (objInArr(element, currentdata)){
+      currentdata[element.registration] = element
+    } else {
+      currentdata.push(element)
+    }
+  });
+}
+
+
+function drawMarkers(){
+
+}
+
 // handle the data returned by the api call
 // assume data is an array of objects
-function initialise(newdata, currentdata){
-  // update / add
-  function updateVList(){
-    newdata.forEach(element => {
-      if (objInArr(element, currentdata)){
-        currentdata[element.registration] = element
-      } else {
-        currentdata.push(element)
-      }
-    });
-  }
-  function drawMarkers(){
+function initialise(newd, currentd){
 
-  }
 
-  updateVList()
+  updateVList(newd, currentd)
 }
 
 
