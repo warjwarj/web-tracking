@@ -5,8 +5,24 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-let markers = []
-let vlist = []
+let markerlist = []
+let vehiclelist = []
+
+// pass the vehicle obj to the functions
+// each function in this class is designed to be used on one singular vehicle/representation of.
+class Vehicle {
+ static drawMarker(obj){
+    m = L.marker([obj.latitude, obj.longitude])
+    m.bindPopup(`Reg: ${obj.registration}, Heading: ${obj.heading}, Speed: ${obj.speed}, Lat: ${obj.latitude}, Long: ${obj.longitude}`)
+    return m
+  }
+}
+
+class Fleet {
+  static updatemarkers(vlist, mlist){
+
+  }
+}
 
 
 // find if an object is already in array - only looking at the reg so if reg matches retuirns true
@@ -40,24 +56,12 @@ function updatevlist(newdata, currentdata){
   });
 }
 
-// take the values from global vlist and use them to create markers, put in markers array
-function updatemarkers(currentdata, markerlist){
-  function drawMarker(v){
-    m = L.marker([v.latitude, v.longitude])
-    m.bindPopup(`Reg: ${v.registration}, Heading: ${v.heading}, Speed: ${v.speed}, Lat: ${v.latitude}, Long: ${v.longitude}`)
-    return m
-  }
-  currentdata.forEach(v => {
-    markerlist.length = 0
-    markerlist.push(drawMarker(v).addTo(map))
-  });
-}
 
 // handle the data returned by the api call
 // assume data is an array of objects
-function refresh(newdata, currentdata){
+function refresh(newdata, currentdata, markerlist){
   updatevlist(newdata, currentdata)
-  updatemarkers(currentdata, markers)
+  updatemarkers(currentdata, markerlist)
 }
 
 
@@ -68,7 +72,7 @@ async function timerFunc(timeinseconds){
   }
   while (true){
     callApi().then(
-      data => refresh(data, vlist)
+      data => refresh(data, vehiclelist)
     )
     console.log("refreshed")
     await sleep(60000)
