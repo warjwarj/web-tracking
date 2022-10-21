@@ -5,3 +5,5 @@ logins created can be viewed from mongo compass, should have installed with mong
 
 
 GET AN SSL CERTIFICATE - NOT SECURE WITHOUT
+
+CHECK AUTHENTICATED ON REQUEST TO PROXY ROUTE
