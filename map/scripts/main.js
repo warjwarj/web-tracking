@@ -6,28 +6,47 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-markers = new L.FeatureGroup
 
-// find if an object is already in array - only looking at the reg so if reg matches retuirns true
-// if this return true then you want to update because the value has changed
-function vehicleInList(obj, arr){
-  arr.forEach(element => {
-    if (element.registration === obj.registration){
-      return element
-    }
-  });
+
+L.FeatureGroup.include({
+
+  // treu if vehicle is marked on the map
+  vehicleMarked: function(reg){
+    let x = false
+    this.eachLayer(function(layer){
+      if (layer.options.vName === reg){
+        x = true;
+    }})
+    return x
+  },
+
+  // custom getLayer searhing on vehicle name
+  getVehicle: function(vName){
+    this.eachLayer(function(layer){
+      if (layer.options.vName === vName){
+        return layer
+      }
+    })
+  }
+
+})
+
+markers = new L.FeatureGroup;
+
+function handleMarker(obj){
+  if (!markers.vehicleMarked(obj.registration)){
+    L.marker([obj.latitude, obj.longitude], {
+      vName: obj.registration,
+      vData: obj
+    })
+    .bindPopup(`Reg: ${obj.registration}`)
+    .addTo(markers)
+    console.log("new")
+  } else {
+    markers.getVehicle(obj.registration).setLatLng([obj.latitude, obj.longitude])
+    console.log("updated")
+  }
 }
-
-// pass the vehicle obj to the functions
-// each function in this class is designed to be used on one singular vehicle/representation of.
-
-function drawMarker(obj){
-  let m = L.marker([obj.latitude, obj.longitude])
-  m.bindPopup(`Reg: ${obj.registration}`)
-  return m
-}
-
-
 
 async function callApi(){
     let request = await fetch('http://127.0.0.1:3000/proxy/apirouter', { 
@@ -48,7 +67,7 @@ async function refresh(newdata){
     markers.clearLayers()
   } finally {
     newdata.forEach(obj => {
-      drawMarker(obj).addTo(markers)
+      handleMarker(obj)
     });
     markers.addTo(map)
   }
