@@ -26,6 +26,7 @@ app.use(passport.initialize())
 app.use([passport.session()])
 app.use(methodOverride('_method'))
 app.use(cors())
+
 // serve the map folder
 app.use('/map', express.static('map'))
 

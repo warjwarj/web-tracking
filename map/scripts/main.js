@@ -4,7 +4,6 @@
 
 */
 
-
 const map = L.map('map').setView([51.505, -0.09], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -13,6 +12,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let markers = []
+let highlightedRow;
 
 
 function handleMarker(obj){
@@ -30,11 +30,79 @@ function handleMarker(obj){
   }
 }
 
+function addFocusEvent(element, v){
+  element.addEventListener('click', () => {
+    try {
+      highlightedRow.classList.remove('highlighted')
+    } finally {
+      element.classList.add('highlighted')
+      markers[v.id].openPopup()
+      map.setView([+(v.latitude), +(v.longitude)], 17)
+      highlightedRow = element;
+    }
+  })
+}
+
+
+function populateMenu(vArr){
+  const menu = document.getElementById("main-menu")
+
+  function handleNullVal(val){
+    if (val == null){
+      return ' '
+    } else {
+      return val
+    }
+  }
+
+  const createElement = function (type, attributes, ...children){
+      const el = document.createElement(type)
+      for (key in attributes) {
+          el.setAttribute(key, attributes[key])
+      }
+      children.forEach(child => {
+          if (typeof child === 'string') {
+            el.appendChild(document.createTextNode(child))
+          } else {
+            el.appendChild(child)
+          }
+      })
+      return el
+  }
+  const vCell = function(cellData, attributes){
+      const el = document.createElement('div')
+      for(key in attributes){
+        el.setAttribute(key, attributes[key])
+      }
+      el.appendChild(document.createTextNode(cellData))
+      return el
+  }
+  function vRow(vObject){
+    let row = createElement(
+      'div',
+      { class: "outer-row-item" },
+      createElement(
+        'div',
+        { class: 'middle-row-item' },
+        vCell(vObject.registration, { class: 'inner-row-item' }),
+        vCell(handleNullVal(vObject.driverName), { class: 'inner-row-item' })
+      ),
+    )
+    return row
+  }
+  vArr.forEach(obj => {
+    console.log(obj)
+    let el = vRow(obj)
+    addFocusEvent(el, obj)
+    menu.appendChild(el)
+  });
+}
 
 
 
 // handle the data returned by the api call
 async function refresh(newdata){
+  populateMenu(newdata)
   newdata.forEach(obj => {
     handleMarker(obj)
   });
@@ -65,7 +133,7 @@ async function timerFunc(){
   }
 }
 
-// timerFunc()
+timerFunc()
 
 
 

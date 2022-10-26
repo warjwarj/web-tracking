@@ -10,20 +10,43 @@ html, body {
     margin: 0;
 }
 
-#wrapper {
-    min-height: 100%;
-    min-width: 100%;
+.highlighted {
+    background-color: cornflowerblue;
 }
+
 
 #main-menu {
     top: 10%;
     left: 3%;
-    display: flex;
     z-index: 2;
     position: absolute !important;
     background-color: floralwhite;
     height: 80vh;
-    width: 40vh;
+    width: relative;
     opacity: 80%;
     border-radius: 2%;
+    padding: 1em;
+    overflow: scroll
+}
+
+
+#grid-menu-wrapper{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 5em;
+    row-gap: 0.3em;
+}
+
+.outer-row-item{
+    display: table; 
+    table-layout: fixed;
+}
+
+.middle-row-item{
+    display: table-row;
+}
+
+.inner-row-item{
+    display: table-cell;
+    padding: 1em;
 }
