@@ -12,12 +12,25 @@
 <body>
     <div id="outer-wrapper">
         <div id="map"></div>
-        <div id="main-menu">
+        <div id="menu-wrapper">
+          <input type="text" id="search" placeholder="Enter a Registration.." onkeyup="sortTable()">
+          <table id="main-menu">
+            <thead>
+              <tr>
+                <th>Registration</th>
+                <th>Driver Name</th>
+              </tr>
+            </thead>
+            <tbody id="menu-table-body">
+
+            </tbody>
+          </table>
         </div>
     </div>
 </body>
 <link rel="stylesheet" href="./style.css">
 <script src="./scripts/main.js"></script>
+<script src="./scripts/dynamic.js"></script>
 </html>
 
 

@@ -45,7 +45,7 @@ function addFocusEvent(element, v){
 
 
 function populateMenu(vArr){
-  const menu = document.getElementById("main-menu")
+  const menu = document.getElementById("menu-table-body")
 
   function handleNullVal(val){
     if (val == null){
@@ -70,7 +70,7 @@ function populateMenu(vArr){
       return el
   }
   const vCell = function(cellData, attributes){
-      const el = document.createElement('div')
+      const el = document.createElement('td')
       for(key in attributes){
         el.setAttribute(key, attributes[key])
       }
@@ -79,19 +79,14 @@ function populateMenu(vArr){
   }
   function vRow(vObject){
     let row = createElement(
-      'div',
-      { class: "outer-row-item" },
-      createElement(
-        'div',
-        { class: 'middle-row-item' },
-        vCell(vObject.registration, { class: 'inner-row-item' }),
-        vCell(handleNullVal(vObject.driverName), { class: 'inner-row-item' })
-      ),
+      'tr',
+      { class: 'middle-row-item' },
+      vCell(vObject.registration, { class: 'inner-row-item' }),
+      vCell(handleNullVal(vObject.driverName), { class: 'inner-row-item' })
     )
     return row
   }
   vArr.forEach(obj => {
-    console.log(obj)
     let el = vRow(obj)
     addFocusEvent(el, obj)
     menu.appendChild(el)
@@ -106,6 +101,7 @@ async function refresh(newdata){
   newdata.forEach(obj => {
     handleMarker(obj)
   });
+  console.log("returned " + newdata.length + " vehicles")
 }
 
 async function callApi(firstLoad){
@@ -127,7 +123,6 @@ async function timerFunc(){
     callApi(first).then(
       data => refresh(data)
     )
-    console.log("refreshed")
     first = false
     await sleep(60000)
   }
