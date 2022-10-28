@@ -46,7 +46,6 @@ function addFocusEvent(element, v){
 
 function populateMenu(vArr){
   const menu = document.getElementById("menu-table-body")
-
   function handleNullVal(val){
     if (val == null){
       return ' '
@@ -54,7 +53,6 @@ function populateMenu(vArr){
       return val
     }
   }
-
   const createElement = function (type, attributes, ...children){
       const el = document.createElement(type)
       for (key in attributes) {
@@ -96,7 +94,7 @@ function populateMenu(vArr){
 
 
 // handle the data returned by the api call
-async function refresh(newdata){
+function refresh(newdata){
   populateMenu(newdata)
   newdata.forEach(obj => {
     handleMarker(obj)
