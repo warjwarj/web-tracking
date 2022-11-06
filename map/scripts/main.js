@@ -14,7 +14,6 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markers = []
 let highlightedRow;
 
-
 function handleMarker(obj){
   // if marker not there create it
   if (!(obj.id in markers)){
@@ -30,19 +29,36 @@ function handleMarker(obj){
   }
 }
 
-function addFocusEvent(element, v){
+// function focusMarker(element){
+//   try {
+//     highlightedRow.classList.remove('highlighted');
+//   } catch {
+//     console.log("no row is highlighted")
+//   } finally {
+//     marker = markers[element.id];
+//     highlightedRow = element;
+//     element.classList.add('highlighted');
+//     map.setView([+(marker._latlng.lat), +(marker._latlng.lng)]);
+//     marker.openPopup();
+//   }
+// }
+
+function addFocusEvent(element){
   element.addEventListener('click', () => {
     try {
-      highlightedRow.classList.remove('highlighted')
-    } finally {
-      element.classList.add('highlighted')
-      markers[v.id].openPopup()
-      map.setView([+(v.latitude), +(v.longitude)], 17)
-      highlightedRow = element;
-    }
+    highlightedRow.classList.remove('highlighted');
+  } catch {
+    console.log("no row is highlighted")
+  } finally {
+    marker = markers[element.id];
+    console.log([+(marker._latlng.lat), +(marker._latlng.lng)])
+    highlightedRow = element;
+    element.classList.add('highlighted');
+    map.setView([+(marker._latlng.lat), +(marker._latlng.lng)],17);
+    marker.openPopup();
+  }
   })
 }
-
 
 function populateMenu(vArr){
   const menu = document.getElementById("menu-table-body")
@@ -82,11 +98,12 @@ function populateMenu(vArr){
       vCell(vObject.registration, { class: 'inner-row-item' }),
       vCell(handleNullVal(vObject.driverName), { class: 'inner-row-item' })
     )
+    row.id = vObject.id
     return row
   }
   vArr.forEach(obj => {
     let el = vRow(obj)
-    addFocusEvent(el, obj)
+    addFocusEvent(el)
     menu.appendChild(el)
   });
 }
@@ -95,10 +112,10 @@ function populateMenu(vArr){
 
 // handle the data returned by the api call
 function refresh(newdata){
-  populateMenu(newdata)
   newdata.forEach(obj => {
     handleMarker(obj)
   });
+  populateMenu(newdata)
   console.log("returned " + newdata.length + " vehicles")
 }
 
