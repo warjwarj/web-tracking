@@ -1,6 +1,6 @@
 /*
 
-test commmit 
+
 
 */
 
@@ -29,6 +29,19 @@ function handleMarker(obj){
   }
 }
 
+// function focusMarker(element){
+//   try {
+//     highlightedRow.classList.remove('highlighted');
+//   } catch {
+//     console.log("no row is highlighted")
+//   } finally {
+//     marker = markers[element.id];
+//     highlightedRow = element;
+//     element.classList.add('highlighted');
+//     map.setView([+(marker._latlng.lat), +(marker._latlng.lng)]);
+//     marker.openPopup();
+//   }
+// }
 
 function addFocusEvent(element){
   element.addEventListener('click', () => {
@@ -106,8 +119,6 @@ function refresh(newdata){
   console.log("returned " + newdata.length + " vehicles")
 }
 
-let first = true
-
 async function callApi(firstLoad){
   let request = await fetch('http://127.0.0.1:3000/proxy/apirouter?firstLoad=' + firstLoad, { 
   method: 'GET',  
@@ -122,6 +133,7 @@ async function timerFunc(){
   function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
   }
+  let first = true
   while (true){
     callApi(first).then(
       data => refresh(data)
