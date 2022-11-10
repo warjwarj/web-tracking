@@ -23,15 +23,15 @@ async function getData(firstLoad){
         rejectUnauthorized: false
     })
 
-    function amountOfV(){
-        if (firstLoad == "true"){
-            return '';
+    function amountOfV(first){
+        if (first == "true"){
+            return ' ';
         } else {
             return lastUpdatedAfter
         }
     }
 
-    const response = await fetch('https://api.easytrack.ltd/api/Sixfold/Vehicles?UpdatedAfter=' + amountOfV(), {
+    const response = await fetch('https://api.easytrack.ltd/api/Sixfold/Vehicles?UpdatedAfter=' + amountOfV(firstLoad), {
         method: 'GET',
         headers: {
             'Authorization': 'bearer wZA9rWWqD+wmCqABoEyVRKSUz9tvHycStxEOBh71qNOqRFBRFqstxMrC4wiqdkxQ83lmKxQW2SJ9GjqtG6Z4S7gfkp+3l7PFRdkjhIwzu18jRcmU1Lkcd8X/vvFlqb9Y',
@@ -46,6 +46,7 @@ async function getData(firstLoad){
 
 
 router.get('/apirouter', async (req, res) => {
+    console.log(req.query.firstLoad)
     let data = await getData(req.query.firstLoad)
     console.log("returned " + data.length + " vehicles")
     res.send(data)

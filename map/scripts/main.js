@@ -2,7 +2,9 @@
 
 
 
+
 */
+
 
 const map = L.map('map').setView([51.505, -0.09], 7);
 
@@ -13,13 +15,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let markers = []
 let highlightedRow;
+let first = true
 
 function handleMarker(obj){
   // if marker not there create it
   if (!(obj.id in markers)){
     markers[obj.id] = L.marker([+(obj.latitude), +(obj.longitude)], {
       vName: obj.registration,
-      vData: obj
+      vData: obj,
+      alt: `this marker represents the vehicle ${obj.registration}, and is being driven by ${obj.driverName}`
     })
     .bindPopup(`Reg: ${obj.registration}`)
     .addTo(map)
@@ -29,19 +33,6 @@ function handleMarker(obj){
   }
 }
 
-// function focusMarker(element){
-//   try {
-//     highlightedRow.classList.remove('highlighted');
-//   } catch {
-//     console.log("no row is highlighted")
-//   } finally {
-//     marker = markers[element.id];
-//     highlightedRow = element;
-//     element.classList.add('highlighted');
-//     map.setView([+(marker._latlng.lat), +(marker._latlng.lng)]);
-//     marker.openPopup();
-//   }
-// }
 
 function addFocusEvent(element){
   element.addEventListener('click', () => {
@@ -62,6 +53,14 @@ function addFocusEvent(element){
 
 function populateMenu(vArr){
   const menu = document.getElementById("menu-table-body")
+  function getIds(){
+    const menu_children = menu.childNodes;
+    let temp = [];
+    for (let i=0; i < menu_children.length; i++){
+      temp.push(menu_children[i].id)
+    }
+    return temp;
+  }
   function handleNullVal(val){
     if (val == null){
       return ' '
@@ -101,7 +100,20 @@ function populateMenu(vArr){
     row.id = vObject.id
     return row
   }
+
+  function markerHasElement(nodeList, id){
+    for (let i=0; i < nodeList.length; i++){
+      if (nodeList[i].id == id){
+        return id
+      }
+    }
+  }
+
   vArr.forEach(obj => {
+    const menu_children = menu.childNodes;
+    if (markerHasElement(menu_children, obj.id)){
+      return
+    }
     let el = vRow(obj)
     addFocusEvent(el)
     menu.appendChild(el)
@@ -133,7 +145,6 @@ async function timerFunc(){
   function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  let first = true
   while (true){
     callApi(first).then(
       data => refresh(data)
