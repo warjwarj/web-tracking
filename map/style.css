@@ -1,3 +1,15 @@
+img.filterToGreen {
+    filter: invert(42%) sepia(92%) saturate(1566%) hue-rotate(93deg) brightness(98%) contrast(105%);
+}
+
+img.filterToBlue{
+    filter: invert(37%) sepia(69%) saturate(7089%) hue-rotate(184deg) brightness(84%) contrast(96%);
+}
+
+img.filterToTurquoise{
+    filter: invert(79%) sepia(22%) saturate(1196%) hue-rotate(124deg) brightness(102%) contrast(102%);
+}
+
 #map {
     padding: 0px;
     height: 100vh;
@@ -7,6 +19,19 @@
 
 th {
     text-align: center;
+}
+
+td {
+    width: 9em;
+}
+
+tr:hover {
+    background-color: darkgray;
+}
+
+.form-control mr-sm-2 {
+    margin: 0%;
+    width: 9em
 }
 
 #inputwrapper{
@@ -26,7 +51,7 @@ html, body {
 }
 
 .highlighted {
-    background-color: cornflowerblue;
+    background-color: #5fd967;
 }
 
 
@@ -41,7 +66,7 @@ html, body {
     opacity: 80%;
     border-radius: 2%;
     padding: 1em;
-    overflow: scroll
+    overflow: auto
 }
 
 .outer-row-item{
@@ -55,6 +80,6 @@ html, body {
 
 .inner-row-item{
     display: table-cell;
-    padding: 1em;
+    padding: 0.3em;
     text-align: center;
 }
