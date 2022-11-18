@@ -52,5 +52,4 @@ router.get('/apirouter', async (req, res) => {
     res.send(data)
 })
 
-
 module.exports = router
