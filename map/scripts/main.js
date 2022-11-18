@@ -10,38 +10,111 @@ const map = L.map('map').setView([51.505, -0.09], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+}).addTo(map);
+map.zoomControl.remove();
+
+L.control.zoom({
+  position: 'bottomright'
 }).addTo(map);
 
-let markers = []
+let markers = {}
 let highlightedRow;
 let first = true
+let fleetIds = []
 
-function handleMarker(obj){
-  // if marker not there create it
-  if (!(obj.id in markers)){
-    markers[obj.id] = L.marker([+(obj.latitude), +(obj.longitude)], {
-      vName: obj.registration,
-      vData: obj,
-      alt: `this marker represents the vehicle ${obj.registration}, and is being driven by ${obj.driverName}`
-    })
-    .bindPopup(`Reg: ${obj.registration}`)
-    .addTo(map)
-  } else {
-    // if marker is there update its position
-    markers[obj.id].setLatLng([+(obj.latitude), +(obj.longitude)])
+const greenIcon = new L.Icon({
+  iconUrl: '../map/images/marker-icon-green.png',
+  shadowUrl: '../map/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const yellowIcon = new L.Icon({
+  iconUrl: '../map/images/marker-icon-yellow.png',
+  shadowUrl: '../map/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const greyIcon = new L.Icon({
+  iconUrl: '../map/images/marker-icon-grey.png',
+  shadowUrl: '../map/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const blueIcon = new L.Icon({
+  iconUrl: '../map/images/marker-icon-blue.png',
+  shadowUrl: '../map/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+async function handleMarker(newdata){
+  console.log("markers on page = ", Object.keys(markers).length, " vehicles updated = ", newdata.length);
+  let idsThatHaveUpdated = []
+  let idsThatHaventUpdated = []
+  function decideColour(obj){
+    if (obj.vehicleStatus == 2 || obj.vehicleStatus == 3 || obj.vehicleStatus == 4 || obj.vehicleStatus == 8){
+      return greenIcon
+    }
+    else if(obj.vehicleStatus == 6 || obj.vehicleStatus == 7){
+      return yellowIcon
+    }
+    else if (obj.vehicleStatus == 1 || obj.vehicleStatus == 5 || obj.vehicleStatus == 9) {
+      return blueIcon
+    }
+    else {
+      return greyIcon
+    }
   }
+  newdata.forEach(obj => {
+    // IF VEHICLE IS NOT REPRESENTED ON PAGE (FIRST = TRUE)
+    if (!(fleetIds.includes(obj.id))) {
+      fleetIds.push(obj.id)
+      markers[obj.id] = L.marker([+(obj.latitude), +(obj.longitude)], {
+        vName: obj.registration,
+        vStatus: obj.vehicleStatus,
+        alt: `this marker represents the vehicle ${obj.registration}, and is being driven by ${obj.driverName}`,
+        icon: decideColour(obj)
+      })
+      .bindPopup(`Reg: ${obj.registration}, Driver: ${obj.driverName}`)
+      .addTo(map)
+      markers[obj.id].setOpacity(1.0)
+      idsThatHaveUpdated.push(obj.id)
+    }
+    // IF VEHICLE IS REPRESENTED ON PAGE (FIRST = FALSE)
+    else {
+      idsThatHaveUpdated.push(obj.id)
+      markers[obj.id].setLatLng([+(obj.latitude), +(obj.longitude)])
+      ._icon = decideColour(obj)
+    }
+    idsThatHaventUpdated = fleetIds.filter(id => {
+      return !idsThatHaveUpdated.includes(id)
+    })
+  })
+  // DO STUFF TO MARKERS THAT HAVE NOT UPDATED
+  idsThatHaventUpdated.forEach(id => {
+    // could be useful at some point
+  });
 }
-
 
 function addFocusEvent(element){
   element.addEventListener('click', () => {
     try {
     highlightedRow.classList.remove('highlighted');
   } catch {
-    console.log("no row is highlighted")
   } finally {
-    marker = markers[element.id];
+    let marker = markers[element.id];
     console.log([+(marker._latlng.lat), +(marker._latlng.lng)])
     highlightedRow = element;
     element.classList.add('highlighted');
@@ -124,11 +197,8 @@ function populateMenu(vArr){
 
 // handle the data returned by the api call
 function refresh(newdata){
-  newdata.forEach(obj => {
-    handleMarker(obj)
-  });
+  handleMarker(newdata)
   populateMenu(newdata)
-  console.log("returned " + newdata.length + " vehicles")
 }
 
 async function callApi(firstLoad){

@@ -1,15 +1,8 @@
-img.filterToGreen {
-    filter: invert(42%) sepia(92%) saturate(1566%) hue-rotate(93deg) brightness(98%) contrast(105%);
-}
 
-img.filterToBlue{
-    filter: invert(37%) sepia(69%) saturate(7089%) hue-rotate(184deg) brightness(84%) contrast(96%);
-}
 
-img.filterToTurquoise{
-    filter: invert(79%) sepia(22%) saturate(1196%) hue-rotate(124deg) brightness(102%) contrast(102%);
+:root{
+    --fwblue: #006F86; 
 }
-
 #map {
     padding: 0px;
     height: 100vh;
@@ -25,7 +18,8 @@ td {
     width: 9em;
 }
 
-tr:hover {
+
+tr.middle-row-item:hover {
     background-color: darkgray;
 }
 
@@ -54,20 +48,30 @@ html, body {
     background-color: #5fd967;
 }
 
+.toggle {
+    display: none;
+}
 
-#menu-wrapper {
-    top: 10%;
-    left: 3%;
+#toolbar {
+    background-color: #006F86;
+    width: auto;
+    height: 3rem
+}
+
+#menu-wrapper{
     z-index: 2;
     position: absolute !important;
     background-color: floralwhite;
-    height: 80vh;
     width: relative;
     opacity: 80%;
-    border-radius: 2%;
+    border-right: var(--fwblue) 2px solid;
     padding: 1em;
-    overflow: auto
+    overflow: auto;
+    position: absolute !important;
+    top: 0;
+    bottom: 0;
 }
+
 
 .outer-row-item{
     display: table; 
