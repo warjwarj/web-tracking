@@ -1,4 +1,8 @@
+/*
 
+http://svgicons.sparkk.fr/
+
+*/
 
 :root{
     --fwblue: #006F86; 
@@ -10,6 +14,33 @@
     z-index: 0;
 }
 
+/* -----
+SVG Icons - svgicons.sparkk.fr
+----- */
+
+.svg-icon {
+    height: auto;
+    width: auto;
+    position: relative;
+  }
+  
+  .svg-icon path,
+  .svg-icon polygon,
+  .svg-icon rect {
+    fill: white;
+  }
+  
+  .svg-icon circle {
+    stroke: white;
+    stroke-width: 1;
+  }
+
+#menu_svg{
+    display: none;
+    max-width: 24px;
+    padding-left: 2px;
+}
+
 th {
     text-align: center;
 }
@@ -18,6 +49,18 @@ td {
     width: 9em;
 }
 
+#menu-wrapper{
+    z-index: 2;
+    position: absolute !important;
+    background-color: floralwhite;
+    width: relative;
+    opacity: 80%;
+    border-right: var(--fwblue) 2px solid;
+    padding: 1em;
+    overflow: auto;
+    top: 0;
+    bottom: 0;
+}
 
 tr.middle-row-item:hover {
     background-color: darkgray;
@@ -52,24 +95,16 @@ html, body {
     display: none;
 }
 
-#toolbar {
-    background-color: #006F86;
-    width: auto;
-    height: 3rem
-}
 
-#menu-wrapper{
-    z-index: 2;
-    position: absolute !important;
-    background-color: floralwhite;
-    width: relative;
-    opacity: 80%;
-    border-right: var(--fwblue) 2px solid;
-    padding: 1em;
-    overflow: auto;
-    position: absolute !important;
-    top: 0;
-    bottom: 0;
+.circle_button{
+    top: 10px;
+    left: 23rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: none;
+    background-color: var(--fwblue);
+    position: absolute;
 }
 
 

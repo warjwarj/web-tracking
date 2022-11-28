@@ -1,12 +1,29 @@
+const menu_btn = document.getElementById("collapse_button");
+const menu_svg = document.getElementById("menu_svg");
+const arrow_svg = document.getElementById("arrow_svg");
+const menu = document.getElementById("menu-wrapper");
+
+collapse_button.addEventListener("click", () => {
+  if (window.getComputedStyle(menu, null).display == "block"){
+    menu.style.display = "none";
+    menu_btn.style.left = "5px"
+    arrow_svg.style.display = "none";
+    menu_svg.style.display = "block";
+
+  } else {
+    menu.style.display = "block";
+    menu_btn.style.left = "22rem";
+    arrow_svg.style.display = "block";
+    menu_svg.style.display = "none";
+  }
+})
 
 function sortReg(){
-    let input, filter, table, tr, td, i, txtValue;
+  let input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("searchReg");
   filter = input.value.toUpperCase();
   table = document.getElementById("menu-table-body");
   tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[0];
     if (td) {
@@ -21,14 +38,11 @@ function sortReg(){
 }
 
 function sortName(){
-  // Declare variables
   let input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("searchName");
   filter = input.value.toUpperCase();
   table = document.getElementById("menu-table-body");
   tr = table.getElementsByTagName("tr");
-
-  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
     if (td) {
