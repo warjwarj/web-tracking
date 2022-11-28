@@ -202,7 +202,7 @@ function refresh(newdata){
 }
 
 async function callApi(firstLoad){
-  let request = await fetch('http://127.0.0.1:3000/proxy/apirouter?firstLoad=' + firstLoad, { 
+  let request = await fetch('/proxy/?firstLoad=' + firstLoad, { 
   method: 'GET',  
   rejectUnauthorized: false,
 })
