@@ -13,7 +13,7 @@ collapse_button.addEventListener("click", () => {
   } else {
     menu.style.display = "block";
     menu_btn.style.left = "22rem";
-    arrow_svg.style.display = "block";
+    arrow_svg.style.display = "inline";
     menu_svg.style.display = "none";
   }
 })
