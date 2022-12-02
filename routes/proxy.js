@@ -3,6 +3,7 @@ const router = express.Router()
 const fetch = require('node-fetch')
 const https = require('https')
 
+
 /*
 
 GET AN SSL CERT - rejectUnauthorized: false NOT GOOD
@@ -16,13 +17,16 @@ GET AN SSL CERT - rejectUnauthorized: false NOT GOOD
 
 let lastUpdatedAfter = ''
 
+
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+
 async function getData(firstLoad){
-
-
     const httpsAgent = new https.Agent({
         rejectUnauthorized: false
     })
-
     function amountOfV(first){
         if (first == "true"){
             return ' ';
@@ -30,7 +34,6 @@ async function getData(firstLoad){
             return lastUpdatedAfter
         }
     }
-
     const response = await fetch('https://api.easytrack.ltd/api/Sixfold/Vehicles?UpdatedAfter=' + amountOfV(firstLoad), {
         method: 'GET',
         headers: {
@@ -45,11 +48,22 @@ async function getData(firstLoad){
 }
 
 
-router.get('/apirouter', async (req, res) => {
-    console.log(req.query.firstLoad)
-    let data = await getData(req.query.firstLoad)
-    console.log("returned " + data.length + " vehicles")
-    res.send(data)
+
+// router.get('/', async (req, res) => {
+//     let data = await getData(req.query.firstLoad)
+//     console.log("returned " + data.length + " vehicles")
+//     res.send(data)
+// })
+
+router.get('/subscribe', async (req, res) => {
+    if (req.query.firstLoad == "true"){
+        let data = await getData(req.query.firstLoad)
+        res.status(200).send(data)
+    } else {
+        let data = await getData(req.query.firstLoad)
+        await sleep(52000)
+        res.status(200).send(data)
+    }
 })
 
 module.exports = router

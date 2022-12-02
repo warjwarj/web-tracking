@@ -5,7 +5,6 @@
 
 */
 
-
 const map = L.map('map').setView([51.505, -0.09], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -18,10 +17,10 @@ L.control.zoom({
   position: 'bottomright'
 }).addTo(map);
 
-let markers = {}
+let markers = {};
 let highlightedRow;
-let first = true
-let fleetIds = []
+let first = true;
+let fleetIds = [];
 
 const greenIcon = new L.Icon({
   iconUrl: '../map/images/marker-icon-green.png',
@@ -193,38 +192,69 @@ function populateMenu(vArr){
   });
 }
 
-
-
-// handle the data returned by the api call
-function refresh(newdata){
-  handleMarker(newdata)
-  populateMenu(newdata)
-}
-
-async function callApi(firstLoad){
-  let request = await fetch('/proxy/?firstLoad=' + firstLoad, { 
-  method: 'GET',  
-  rejectUnauthorized: false,
-})
-let data = await request.json()
-return data
-}
-
-// timer for calling callApi
-async function timerFunc(){
   function sleep(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  while (true){
-    callApi(first).then(
-      data => refresh(data)
-    )
+
+// handle the data returned by the api call
+function refresh(newdata){
+  handleMarker(newdata);
+  populateMenu(newdata);
+  first = false;
+}
+
+// async function callApi(firstLoad){
+//   console.warn("api called")
+//   let request = await fetch('/proxy/subscribe?firstLoad=' + firstLoad, { 
+//     method: 'GET',  
+//     rejectUnauthorized: false,
+//   })
+//   let data = await request.json()
+//   return data
+// }
+
+async function subscribe() {
+
+  let response = await fetch('/proxy/subscribe?firstLoad=' + first, { 
+    method: 'GET',  
+    rejectUnauthorized: false,
+  })
+
+  let data = await response.json()
+
+  if (response.status == 502) {
+    await subscribe();
+
+  } else if (response.status == 304 || response.status == 200) {
+    refresh(data)
     first = false
-    await sleep(60000)
+    await sleep(1000)
+    await subscribe();
+
+  } else if (String(response.status)[0] === 4 || String(response.status)[0] === 5) {
+    window.alert(`server responded with a status of ${response.status}, and therefore we could not fufill the request.`);
   }
 }
 
-timerFunc()
+subscribe();
+
+
+
+// // timer for calling callApi
+// async function timerFunc(){
+//   function sleep(ms){
+//     return new Promise(resolve => setTimeout(resolve, ms))
+//   }
+//   while (true){
+//     callApi(first).then(
+//       data => refresh(data)
+//     )
+//     first = false
+//     await sleep(60000)
+//   }
+// }
+
+// // timerFunc()
 
 
 
