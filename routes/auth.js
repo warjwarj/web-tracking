@@ -15,15 +15,25 @@ function queryOnEmail(email){
         console.log(err)
     }
 }
-function queryOnId(id){
+
+function queryOnCompany(company){
     try {
-        let idquery = User.findOne({ 'id': id })
-        return idquery
+        let companyQuery = User.findOne({ 'company': company })
+        return companyQuery
     } catch (err) {
         console.log(err)
     }
 }
 
+function queryOnId(id){
+    let data;
+    try {
+       let query = User.findOne({ 'id': id }).exec();
+       return query.then(function(obj){ return obj })
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 initialisePassport(
     passport, 
@@ -31,11 +41,9 @@ initialisePassport(
     queryOnId
 )
 
-
 router.get('/login', checkNotAuth, (req, res) => {
     res.render('login.ejs')
 })
-
 
 router.post('/login', checkNotAuth, passport.authenticate('local', {
     successRedirect: '/home',
@@ -43,13 +51,12 @@ router.post('/login', checkNotAuth, passport.authenticate('local', {
     failureFlash: true
 }))
 
-
 router.get('/register', (req, res) => {
     res.render('register.ejs')
 })
 
-
 router.post('/register', checkNotAuth, async (req, res) => {
+    console.log(req.body)
     try {
         if (await queryOnEmail(req.body.email) !== null){
             req.flash('error', 'email already registered')
@@ -57,7 +64,7 @@ router.post('/register', checkNotAuth, async (req, res) => {
         }
         hashedPassword = await bcrypt.hash(req.body.password, 10)
         await User.create({
-            name: req.body.name,
+            username: req.body.name,
             email: req.body.email,
             password: hashedPassword,
             id: Date().toString()
@@ -67,6 +74,5 @@ router.post('/register', checkNotAuth, async (req, res) => {
         res.redirect('/auth/register')
     }
 })
-
 
 module.exports = router

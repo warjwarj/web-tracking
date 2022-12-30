@@ -2,9 +2,12 @@ const express = require('express')
 const router = express.Router()
 const checkAuth = require('../middleware/checkAuth')
 
-
-router.get('/', checkAuth, (req, res) => {
-    res.render('index.ejs', { name: req.user.name })
+// need to await because req.user calls deserialise and that calls a query thats async
+router.get('/', checkAuth, async (req, res) => {
+    user = await req.user
+    res.render('home.ejs', {
+        username: user.username
+    })
 })
 
 

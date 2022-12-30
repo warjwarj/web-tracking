@@ -1,0 +1,58 @@
+:root{
+    --fwblue: #006F86; 
+}
+
+/* override bootstrap */
+
+
+body {
+    background-color: lightgray;
+}
+
+label {
+    display: block;
+}
+
+img {
+    max-width: 25rem;
+}
+
+.title {
+    margin: auto;
+    width: fit-content;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+
+#main-x {
+    position: relative;
+    background-color: var(--fwblue);
+    color: white;
+    font-size: 1.2em;
+    height: fit-content;
+    width: fit-content;
+    margin: auto;
+    padding: 1em;
+    top: 33%;
+}
+
+.input-field {
+    margin: 0.2em;
+}
+
+.error {
+    margin: 0.2rem;
+    color: red;
+}
+
+#other-page{
+    cursor: pointer;
+    color: white;
+}
+
+.secondary-input-field {
+    padding-top: 0.4em;
+    display: inline-block;
+    margin: 0.3em;
+}

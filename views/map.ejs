@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <title>tracking</title>
+</head>
+<body>
+    <div id="outer-wrapper">
+        <div id="map"></div>
+        <button class="circle_button" id="collapse_button">
+          <svg class="svg-icon" id="menu_svg" viewBox="0 0 20 20">
+            <path fill="none" d="M1.683,3.39h16.676C18.713,3.39,19,3.103,19,2.749s-0.287-0.642-0.642-0.642H1.683c-0.354,0-0.641,0.287-0.641,0.642S1.328,3.39,1.683,3.39z M1.683,7.879h11.545c0.354,0,0.642-0.287,0.642-0.641s-0.287-0.642-0.642-0.642H1.683c-0.354,0-0.641,0.287-0.641,0.642S1.328,7.879,1.683,7.879z M18.358,11.087H1.683c-0.354,0-0.641,0.286-0.641,0.641s0.287,0.642,0.641,0.642h16.676c0.354,0,0.642-0.287,0.642-0.642S18.713,11.087,18.358,11.087zM11.304,15.576H1.683c-0.354,0-0.641,0.287-0.641,0.642s0.287,0.641,0.641,0.641h9.621c0.354,0,0.642-0.286,0.642-0.641S11.657,15.576,11.304,15.576z"></path>
+          </svg>
+          <svg class="svg-icon" id="arrow_svg" viewBox="0 0 20 20">
+            <path fill="none" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+          </svg>
+        </button>
+        <div id="menu-wrapper">
+          <table id="main-menu">
+            <thead>
+              <tr>
+                <th><input type="text" id="searchReg" class="form-control mr-sm-2" placeholder="Enter a Reg.." onkeyup="sortReg()" tabindex="1"></th><label for="searchReg" style="display: none">search on a registration</label>
+                <th><input type="text" id="searchName" class="form-control mr-sm-2" placeholder="Enter a Name.." onkeyup="sortName()" tabindex="2"></tr><label for="searchName" style="display: none">search on a driver's name</label>
+              </tr>
+              <tr>
+                <th>Registration</th>
+                <th>Driver Name</th>
+              </tr>
+            </thead>
+            <tbody id="menu-table-body">
+            </tbody>
+          </table>
+        </div>
+    </div>
+</body>
+<link rel="stylesheet" href="./assets/stylesheets/map.css">
+<script src="./assets/scripts/map_main.js"></script>
+<script src="./assets/scripts/map_dynamic.js"></script>
+</html>
