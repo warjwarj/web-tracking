@@ -67,6 +67,7 @@ router.post('/register', checkNotAuth, async (req, res) => {
             username: req.body.name,
             email: req.body.email,
             password: hashedPassword,
+            permLevel: req.body.permLevel,
             id: Date().toString()
         })
         res.redirect('/auth/login')
