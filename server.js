@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-}
-
 
 const express = require('express')
 const app = express()
@@ -13,7 +9,6 @@ const checkAuth = require('./middleware/checkAuth')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const http = require('http');
-const cookieParser = require('cookie-parser')
 
 // static assets
 app.use('/assets', express.static('assets'))
@@ -22,9 +17,8 @@ app.use('/assets', express.static('assets'))
 app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())
-app.use(cookieParser())
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "qoweiwh4er8993e2o[-eegtdf",
     resave: false,
     saveUninitialized: false,
     rolling: true
