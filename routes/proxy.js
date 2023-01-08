@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const fetch = require('node-fetch')
 const https = require('https')
-
+const checkAuth = require("../middleware/checkAuth");
 
 /*
 
@@ -55,7 +55,7 @@ async function getData(firstLoad){
 //     res.send(data)
 // })
 
-router.get('/subscribe', async (req, res) => {
+router.get('/subscribe', checkAuth, async (req, res) => {
     if (req.query.firstLoad == "true"){
         let data = await getData(req.query.firstLoad)
         res.status(200).send(data)
