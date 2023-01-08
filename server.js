@@ -28,12 +28,6 @@ app.use(passport.session())
 app.use(methodOverride('_method'))
 app.use(cors())
 
-
-app.get('/', checkAuth, (req, res) => {
-    if (!req.user.name) { res.render('home.ejs') }
-    else { res.render('home.ejs', { name: req.user.name }) }
-})
-
 const authRouter = require('./routes/auth')
 app.use('/auth', authRouter)
 
@@ -48,6 +42,10 @@ app.use('/stats', statsRouter)
 
 const mapRouter = require('./routes/map')
 app.use('/map', mapRouter) 
+
+app.get('/', checkAuth, (req, res) => {
+    res.redirect('/home')
+})
 
 const dbconnection = mongoose.connect('mongodb://localhost/usersdb', console.log("db connected"))
 
