@@ -4,9 +4,9 @@
 }
 
 body {
-  margin: 0;
-  font-family: Helvetica, sans-serif;
-  background-color: #f4f4f4;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    background-color: #f4f4f4;
   }
   
   a {
@@ -47,6 +47,10 @@ body {
     text-decoration: none;
   }
 
+  .header li form button {
+    
+  }
+
   .header li button {
     border-right: 1px solid var(--fwblue);
     text-decoration: none;
@@ -81,9 +85,12 @@ body {
     cursor: pointer;
     display: inline-block;
     float: right;
-    padding: 28px 20px;
+    padding: 34px 20px;
     position: relative;
     user-select: none;
+  }
+  .header-link {
+    margin: auto;
   }
 
   .menu-icon label {
