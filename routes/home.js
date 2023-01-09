@@ -9,7 +9,6 @@ router.get('/', checkAuth, async (req, res) => {
     })
 })
 
-
 router.delete('/logout', (req, res, next) => {
     req.logOut((err) => {
         if (err){

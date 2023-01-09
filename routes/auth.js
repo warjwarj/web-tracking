@@ -16,15 +16,6 @@ function queryOnEmail(email){
     }
 }
 
-function queryOnCompany(company){
-    try {
-        let companyQuery = User.findOne({ 'company': company })
-        return companyQuery
-    } catch (err) {
-        console.log(err)
-    }
-}
-
 function queryOnId(id){
     let data;
     try {

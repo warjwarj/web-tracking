@@ -1,4 +1,5 @@
 const checkAuth = require("../middleware/checkAuth");
+const checkPermLvl = require("../middleware/checkPermissions");
 const router = require("./auth");
 
 function makesampledata(data){
@@ -997,9 +998,9 @@ let filler = makesampledata([
 
 
 
-router.get('/', checkAuth, (req, res) => {
+router.get('/', checkAuth, checkPermLvl(2), async (req, res) => {
     res.render('stats.ejs', {
-        sampledata: filler
+        user: await req.user
     })
 })
 

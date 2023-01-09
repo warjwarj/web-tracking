@@ -47,14 +47,6 @@ async function getData(firstLoad){
     return data
 }
 
-
-
-// router.get('/', async (req, res) => {
-//     let data = await getData(req.query.firstLoad)
-//     console.log("returned " + data.length + " vehicles")
-//     res.send(data)
-// })
-
 router.get('/subscribe', checkAuth, async (req, res) => {
     if (req.query.firstLoad == "true"){
         let data = await getData(req.query.firstLoad)
