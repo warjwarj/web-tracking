@@ -12,16 +12,21 @@
     <title>stats</title>
 </head>
 <body>
-    <header class="header">
-        <a href="/" class="logo"><img id="logo-title-white" src="/assets/img/logo-white.png" alt="logo"></a>
-        <input class="menu-btn" type="checkbox" id="menu-btn" />
-        <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
-        <ul class="menu">
-          <li><a href="/map" class="header-link">Tracking</a></li>
-          <li><a href="/stats" class="header-link">Statistics</a></li>
-          <li><form action="/home/logout?_method=DELETE" method="POST"><button class="header-link">Log Out</button></form></li>
-        </ul>
-      </header>
+  <header class="header">
+    <a href="/" class="logo"><img id="logo-title-white" src="/assets/img/logo-white.png" alt="logo"></a>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu">
+      <% if (user.permLevel >= 2){ %>
+      <li><a href="/map" class="header-link">Tracking</a></li>
+      <li><a href="/stats" class="header-link">Statistics</a></li>
+      <% if (user.permLevel === 3){ %>
+      <li><a href="/auth/register" class="header-link">Register</a></li>
+      <% } %>
+      <% } %>
+      <li><form action="/home/logout?_method=DELETE" method="POST"><button class="header-link">Log Out</button></form></li>
+    </ul>
+  </header>
     <div id="graphWrapper">
         <canvas id="myChart"></canvas>
     </div>
