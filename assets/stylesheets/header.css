@@ -47,10 +47,6 @@ body {
     text-decoration: none;
   }
 
-  .header li form button {
-    
-  }
-
   .header li button {
     border-right: 1px solid var(--fwblue);
     text-decoration: none;
@@ -133,7 +129,7 @@ body {
   }
   
   .header .menu-btn:checked ~ .menu {
-    max-height: 240px;
+    max-height: 260px;
   }
   
   .header .menu-btn:checked ~ .menu-icon .navicon {
