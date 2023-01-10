@@ -8,4 +8,6 @@ TODO:
 
  - get SSL cert
 
+ - implement user scope = CMS like tree structure
+
  
