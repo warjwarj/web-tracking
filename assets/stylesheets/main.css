@@ -1,0 +1,10 @@
+:root{
+    --fwblue: #006F86;
+    --fworange: #ec6408;
+    --dark-grey: #5c5e5d;
+    --light-grey: #b6b8b6
+  }
+
+body {
+    background-color: var(--light-grey);
+}
