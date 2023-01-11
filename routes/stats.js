@@ -998,7 +998,7 @@ let filler = makesampledata([
 
 
 
-router.get('/', checkAuth, checkPermLvl(2), async (req, res) => {
+router.get('/', checkAuth, checkPermLvl(2, 'your permissions are not high enough'), async (req, res) => {
     res.render('stats.ejs', {
         user: await req.user
     })
