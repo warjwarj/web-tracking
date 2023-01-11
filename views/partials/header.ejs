@@ -5,7 +5,7 @@
   <% if (user.permLevel >= 2){ %>
   <li><a href="/map" class="header-link">Tracking</a></li>
   <li><a href="/stats" class="header-link">Statistics</a></li>
-  <% if (user.permLevel === 3){ %>
+  <% if (user.permLevel >= 3){ %>
   <li><a href="/auth/register" class="header-link">Register</a></li>
   <% } %>
   <% } %>

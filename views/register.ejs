@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <%- include('./partials/head.ejs') %> 
     <link rel="stylesheet" href="/assets/stylesheets/auth.css">
-    <link rel="stylesheet" href="assets/stylesheets/main.css">
     <title>Register</title>
 </head>
 <body>
-    <div class="title"><img src="/assets/img/logo-title.png" alt=""></div>
-    <div id="main-x">
+    <div class="header">
+        <%- include('./partials/header.ejs') %>
+    </div>
+    <div id="main-register">
         <form action="/auth/register" method="POST" id="reg-form">
             <div class="input-field">
                 <label for="name">Name</label>
@@ -29,11 +26,23 @@
             <div class="input-field">
                 <label for="permLevel">Permission Level</label>
                 <select id="permLevel" name="permLevel" form="reg-form">
-                    <option value="3">Admin</option>
-                    <option value="2">Manager</option>
                     <option value="1">Driver</option>
+                    <option value="2">Manager</option>
+                    <option value="3">Admin</option>
+                    <option value="4">Dealer</option>
                 </select>
             </div>
+            <% if (possibleParents !== null){ %> 
+            <div class="input-field">
+                <label for="parentAcc">Parent Account</label>
+                <select name="parentAcc" id="parentAcc">
+                    <option value="null">Fleet Witness Main</option>
+                    <% for (let i=0; i < possibleParents.length; i++){ %>
+                        <option value="<%= possibleParents[i].username %>"><%= possibleParents[i].username %></option>
+                    <% } %> 
+                </select>
+            </div>
+            <% } %> 
             <div class="error">
                 <% if (messages.error){ %>
                     <%= messages.error %>
