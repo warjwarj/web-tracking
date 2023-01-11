@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const passport = require('passport')
@@ -18,7 +18,7 @@ app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())
 app.use(session({
-    secret: "qoweiwh4er8993e2o[-eegtdf",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     rolling: true
@@ -47,7 +47,7 @@ app.get('/', checkAuth, (req, res) => {
     res.redirect('/home')
 })
 
-const dbconnection = mongoose.connect('mongodb://localhost/usersdb', console.log("db connected"))
+const dbconnection = mongoose.connect(process.env.DB_URL, console.log("db connected"))
 
 app.listen(3000, console.log("server started, port 3000"))
 
