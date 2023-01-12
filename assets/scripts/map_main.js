@@ -5,7 +5,11 @@
 
 */
 
-const map = L.map('map').setView([51.505, -0.09], 7);
+const map = L.map('map', {
+  fullscreenControl: {
+    position: 'bottomright'
+  }
+}).setView([51.505, -0.09], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -16,6 +20,7 @@ map.zoomControl.remove();
 L.control.zoom({
   position: 'bottomright'
 }).addTo(map);
+
 
 let markers = {};
 let highlightedRow;

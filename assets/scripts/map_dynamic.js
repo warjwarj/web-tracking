@@ -6,7 +6,7 @@ const menu = document.getElementById("menu-wrapper");
 collapse_button.addEventListener("click", () => {
   if (window.getComputedStyle(menu, null).display == "block"){
     menu.style.display = "none";
-    menu_btn.style.left = "5px"
+    menu_btn.style.left = "2rem"
     arrow_svg.style.display = "none";
     menu_svg.style.display = "block";
 

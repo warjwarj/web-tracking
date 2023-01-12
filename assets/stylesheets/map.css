@@ -63,7 +63,7 @@ td {
     border-right: var(--fwblue) 2px solid;
     padding: 1em;
     overflow: auto;
-    top: 0;
+    top: 4em;
     bottom: 0;
 }
 
@@ -102,14 +102,14 @@ html, body {
 
 
 .circle_button{
-    top: 10px;
-    left: 23rem;
+    left: 21.7rem;
     width: 40px;
     height: 40px;
     border-radius: 100%;
     border: none;
     background-color: var(--fwblue);
     position: absolute;
+    top: 6em
 }
 
 
@@ -126,4 +126,10 @@ html, body {
     display: table-cell;
     padding: 0.3em;
     text-align: center;
+}
+
+@media (max-width: 48em) {
+    #map > div.leaflet-control-container {
+        display: none;
+    }
 }
