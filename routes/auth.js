@@ -3,6 +3,8 @@ const passport = require('passport')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const checkNotAuth = require('../middleware/checkNotAuth')
+const checkAuth = require('../middleware/checkAuth')
+const checkPermLvl = require("../middleware/checkPermissions");
 const initialisePassport = require('../passport-config')
 const User = require('../User')
 
@@ -42,12 +44,27 @@ router.post('/login', checkNotAuth, passport.authenticate('local', {
     failureFlash: true
 }))
 
-router.get('/register', (req, res) => {
-    res.render('register.ejs')
+router.get('/register', checkAuth, async (req, res) => {
+    let user = await req.user
+    // get all the admin acccounts to choose the parent of another account
+    let pp = await User.find({'permLevel': 3}, {'username': 1, _id: 0}).exec()
+    if (user.permLevel > 3){
+        console.log(pp)
+        res.render('register.ejs', {
+            possibleParents: pp,
+            user: user,
+        })
+    } else {
+        res.render('register.ejs', { 
+            user: user,
+            possibleParents: null
+        })
+    }
 })
 
-router.post('/register', checkNotAuth, async (req, res) => {
+router.post('/register', checkAuth, checkPermLvl(3, 'you cannot create a user as you are not an admin'), async (req, res) => {
     console.log(req.body)
+    if (req.user.permLevel < 4 && req.body.permLevel < 3){ res.render('error.ejs', { reason: 'you cannot create a user with the same permision level as your own.' }) }
     try {
         if (await queryOnEmail(req.body.email) !== null){
             req.flash('error', 'email already registered')
@@ -61,7 +78,7 @@ router.post('/register', checkNotAuth, async (req, res) => {
             permLevel: req.body.permLevel,
             id: Date().toString()
         })
-        res.redirect('/auth/login')
+        res.redirect('/auth/register')
     } catch (err) {
         res.redirect('/auth/register')
     }
