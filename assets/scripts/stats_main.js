@@ -13,7 +13,6 @@ async function requestData(){
 
 // possible paramaters - type of chart, parent div
 async function makeChart(){
-
   function customSort(data, key2SortOn){
     function customCompare(a, b){
       if (a[key2SortOn] < b[key2SortOn]){
