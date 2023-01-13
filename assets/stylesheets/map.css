@@ -61,7 +61,7 @@ td {
     width: relative;
     opacity: 80%;
     border-right: var(--fwblue) 2px solid;
-    padding: 1em;
+    padding: 0;
     overflow: auto;
     top: 4em;
     bottom: 0;

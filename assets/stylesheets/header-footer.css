@@ -179,4 +179,5 @@ body {
   background-color: var(--dark-grey);
   color: white;
   min-height: 2.7em;
+  z-index: 4;
 }
