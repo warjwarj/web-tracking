@@ -2,13 +2,6 @@ const checkAuth = require("../middleware/checkAuth");
 const checkPermLvl = require("../middleware/checkPermissions");
 const router = require("./auth");
 
-function makesampledata(data){
-    for (let i in data){
-        data[i].driverScore = Math.floor(Math.random() * 10)
-    }
-    return data
-}
-
 let filler = [
     {
         "driver": "Adam Banks ",
@@ -2776,7 +2769,8 @@ let filler = [
 
 router.get('/', checkAuth, checkPermLvl(2, 'your permissions are not high enough'), async (req, res) => {
     res.render('stats.ejs', {
-        user: await req.user
+        user: await req.user,
+        drivers: filler
     })
 })
 
