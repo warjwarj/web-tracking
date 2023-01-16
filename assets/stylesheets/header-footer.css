@@ -153,27 +153,28 @@ body {
   
   /* 48em = 768px */
   
-  @media (min-width: 48em) {
-    .header li {
-      float: left;
-    }
-    .header li a {
-      padding: 20px 30px;
-    }
-    .header .menu {
-      clear: none;
-      float: right;
-      max-height: none;
-    }
-    .header .menu-icon {
-      display: none;
-    }
+@media (min-width: 48em) {
+  .header li {
+    float: left;
   }
+  .header li a {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+}
 
 /* footer */
 
 .footer {
-  position: absolute;
+  position: static;
+  display: inline-block;
   left: 0;
   bottom: 0;
   width: 100%;
