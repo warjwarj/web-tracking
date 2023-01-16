@@ -2,9 +2,9 @@ const express = require('express')
 const passport = require('passport')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-const checkNotAuth = require('../middleware/checkNotAuth')
-const checkAuth = require('../middleware/checkAuth')
-const checkPermLvl = require("../middleware/checkPermissions");
+const checkNotAuth = require('../utils/middleware/checkNotAuth')
+const checkAuth = require('../utils/middleware/checkAuth')
+const checkPermLvl = require("../utils/middleware/checkPermissions");
 const initialisePassport = require('../passport-config')
 const User = require('../User')
 

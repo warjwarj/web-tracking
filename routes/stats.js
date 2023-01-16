@@ -1,6 +1,42 @@
-const checkAuth = require("../middleware/checkAuth");
-const checkPermLvl = require("../middleware/checkPermissions");
+const checkAuth = require("../utils/middleware/checkAuth");
+const checkPermLvl = require("../utils/middleware/checkPermissions");
 const router = require("./auth");
+
+/*
+
+extrapolate the range of driverScores into 1 - 100
+
+for example: 
+
+    min is 0.0238
+    max is 12.589
+    range is 12.5652
+
+    driverX's pre fleet-weighted score is 2.344
+
+    2.344 as a percentage of 12.5652 is 18.6
+
+    so drivers final score is 18.6, ill invert that (100 - 18.6) so its 81.4 BOOM
+
+*/
+
+function calculateDriverScore(data, weightConfig){
+    let vals2Consider = Object.keys(weightConfig);
+    let fleetScores = [];
+    let max = 0;
+    let min = 100;
+    for (let i=0; i < data.length; i++){
+        let totalEvents = 0;
+        let driver = data[i];
+        for (let i=0; i < vals2Consider.length; i++){
+            totalEvents += (driver[vals2Consider[i]] *= weightConfig[vals2Consider[i]])
+        }
+        let finalDriverScore = totalEvents / driver.distance;
+        fleetScores.push(finalDriverScore)
+        if (finalDriverScore > max){ max = finalDriverScore }
+        if (finalDriverScore < min){ min = finalDriverScore }
+    }
+}
 
 let filler = [
     {
@@ -2764,6 +2800,14 @@ let filler = [
         "totalFuelUsed": 0.29310196824371815
     }
 ]
+
+calculateDriverScore(filler, {
+    "harshAccelerationCount": 0.8,
+    "harshBrakingCount": 0.6,
+    "harshCorneringCount": 1.1,
+    "speedingCount": 1.5,
+    "idlingCount": 0.5,
+})
 
 
 

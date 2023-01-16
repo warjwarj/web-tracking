@@ -1,5 +1,5 @@
-const checkAuth = require("../middleware/checkAuth");
-const checkPermLvl = require("../middleware/checkPermissions");
+const checkAuth = require("../utils/middleware/checkAuth");
+const checkPermLvl = require("../utils/middleware/checkPermissions");
 const express = require('express')
 const router = express.Router();
 

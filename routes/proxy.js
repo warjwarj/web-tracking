@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const fetch = require('node-fetch')
 const https = require('https')
-const checkAuth = require("../middleware/checkAuth");
+const checkAuth = require("../utils/middleware/checkAuth");
 
 /*
 
