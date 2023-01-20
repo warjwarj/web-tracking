@@ -48,8 +48,7 @@ router.get('/register', checkAuth, async (req, res) => {
     let user = await req.user
     // get all the admin acccounts to choose the parent of another account
     let pp = await User.find({'permLevel': 3}, {'username': 1, _id: 0}).exec()
-    if (user.permLevel > 3){
-        console.log(pp)
+    if (user.permLevel < 3){
         res.render('register.ejs', {
             possibleParents: pp,
             user: user,
@@ -76,6 +75,7 @@ router.post('/register', checkAuth, checkPermLvl(3, 'you cannot create a user as
             email: req.body.email,
             password: hashedPassword,
             permLevel: req.body.permLevel,
+            settings: {},
             id: Date().toString()
         })
         res.redirect('/auth/register')
