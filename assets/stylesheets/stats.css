@@ -1,6 +1,14 @@
-body {
-    display: flex;
-    flex-direction: column
+
+.main-content {
+    display: table;
+    height: max-content;
+    width: 100vh;
+    overflow: auto;
+}
+
+.footer {
+    display: none;
+    bottom: 0;
 }
 
 li {
@@ -15,25 +23,63 @@ ul {
     
 }
 
+.svg-icon {
+    height: auto;
+    width: auto;
+    position: relative;
+  }
+  
+  .svg-icon path,
+  .svg-icon polygon,
+  .svg-icon rect {
+    fill: white;
+  }
+  
+  .svg-icon circle {
+    stroke: white;
+    stroke-width: 1;
+  }
+
+#menu_svg{
+    display: none;
+    max-width: 24px;
+    padding-left: 2px;
+}
+
+.circle_button{
+    left: 25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: none;
+    background-color: var(--fwblue);
+    position: absolute;
+    top: 6em;
+    z-index: 1;
+}
+
+#arrow_svg{
+    max-width: 20px;
+    padding-bottom: 3px;
+}
+
 .menu-container {
+    display: table-row;
     height: 100%;
-    width: fit-content;
     background-color: #dbd9d9;
+    position: absolute;
+    margin-bottom: 0;;
 }
 
 .tab-container{
     position: static;
-    overflow: auto;
     padding: 1em;
     width: fit-content;
-    height: calc(100% - 3em);
+    height: 100%;
     background-color: #dbd9d9;
     border: 3px solid black;
 }
 
-footer {
-    float: inline-end;
-}
 
 .tab {
   float: left;
@@ -41,7 +87,6 @@ footer {
   background-color: #f1f1f1;
   width: fit-content;
   height: fit-content;
-  overflow: auto;
 }
 
 .tabcontent {
@@ -49,11 +94,14 @@ footer {
     background-color: #f1f1f1;
     border-left: none;
     height: 100%;
+    max-height: 100%;
     overflow: auto;
     padding: 1em;
     width: fit-content;
+    max-width: 300px;
     margin-right: 0 !important;
     display: inline-block;
+    position: inline
 }
 
 .tabcontent-inner {
@@ -84,3 +132,9 @@ footer {
 .tab button.active {
   background-color: #ccc;
 }
+
+.stats-container {
+    position: absolute;
+
+}
+

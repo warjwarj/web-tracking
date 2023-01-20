@@ -87,10 +87,6 @@ tr.middle-row-item:hover {
     margin: 1em;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
 
 .highlighted {
     background-color: #5fd967;
