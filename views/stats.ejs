@@ -5,24 +5,82 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <%- include('./partials/head.ejs') %>
     <link rel="stylesheet" href="/assets/stylesheets/stats.css">
-    <!-- <script defer src="assets/scripts/stats_main.js"></script> -->
     <title>Stats</title>
 </head>
 <body>
   <header class="header">
     <%- include('./partials/header.ejs') %> 
   </header>
-    <div class="driverSelect-container">
-      <form>
-      <ul>
-        <% for (let i=0; i < drivers.length; i++){ %>
-          <li id="<%= drivers[i].driver %>"> <input type="radio" name="selectedDriver"> <%= drivers[i].driver %> </li>
-        <% } %>
-      </ul>
-      </form>
+  <div class="main-content">
+    <div class="menu-container" id="menu-container">
+      <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Induvidual Driver')" id="defaultOpen">Driver</button>
+        <button class="tablinks" onclick="openTab(event, 'Whole Fleet')">Fleet</button>
+        <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+      </div>
+      
+      <div id="Induvidual Driver" class="tabcontent">
+        <h3>Choose a driver</h3>
+        <input type="text" id="searchName" class="form-control mr-sm-2" placeholder="Enter a Name.." tabindex="2"></tr><label for="searchName" style="display: none">search on a driver's name</label>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1em;" id="induvidualDriverStats">Load Stats</button>
+        <div class="tabcontent-inner">
+        <ul>
+          <% for (let i=0; i < drivers.length; i++){ %>
+            <li class="driver-li"> <input type="radio" name="selectedDriver" id="<%= drivers[i].driver %>"> <%= drivers[i].driver %> </li>
+          <% } %>
+        </ul>
+      </div>
+      </div>
+      
+      <div id="Whole Fleet" class="tabcontent">
+        <h3>TO BE IMPLEMENTED</h3>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium eius nesciunt sed quisquam ex beatae atque vero molestiae repellendus quis. Esse et facilis quas veniam suscipit numquam, provident debitis velit!</p> 
+      </div>
+      
+      <div id="Settings" class="tabcontent" >
+        <div class="tabcontent-inner">
+        <h3>Settings</h3>
+        <form action="/stats/settings" method="POST" name="weightConfig">
+        <button type="submit" class="btn btn-primary"> Update Settings </button>
+        </div>
+        <div class="tabcontent-inner">
+          <h6>Add weight to variables inline with the severity you place on that event.</h6>
+          <input type="number" min="0" max="2" step="0.2" value="<%= settings.weightConfig.speedingCount %>" name="weightConfig">
+          <span id="speeding-slider">speeding </span>
+          <br>
+          <input type="number" min="0" max="2" step="0.2" value="<%= settings.weightConfig.harshBrakingCount %>" name="weightConfig">
+          <span id="braking-slider">braking </span>
+          <br>
+          <input type="number" min="0" max="2" step="0.2" value="<%= settings.weightConfig.harshAccelerationCount %>" name="weightConfig">
+          <span id="acceleration-slider">acceleration </span>
+          <br>
+          <input type="number" min="0" max="2" step="0.2" value="<%= settings.weightConfig.harshCorneringCount %>" name="weightConfig">
+          <span id="cornering-slider">cornering </span>
+          <br>
+          <input type="number" min="0" max="2" step="0.2" value="<%= settings.weightConfig.idlingCount %>" name="weightConfig">
+          <span id="idling-slider">idling </span>
+        </div>
+        </form>
+      </div>
     </div>
+    <button class="circle_button" id="collapse_button">
+      <svg class="svg-icon" id="menu_svg" viewBox="0 0 20 20">
+        <path fill="none" d="M1.683,3.39h16.676C18.713,3.39,19,3.103,19,2.749s-0.287-0.642-0.642-0.642H1.683c-0.354,0-0.641,0.287-0.641,0.642S1.328,3.39,1.683,3.39z M1.683,7.879h11.545c0.354,0,0.642-0.287,0.642-0.641s-0.287-0.642-0.642-0.642H1.683c-0.354,0-0.641,0.287-0.641,0.642S1.328,7.879,1.683,7.879z M18.358,11.087H1.683c-0.354,0-0.641,0.286-0.641,0.641s0.287,0.642,0.641,0.642h16.676c0.354,0,0.642-0.287,0.642-0.642S18.713,11.087,18.358,11.087zM11.304,15.576H1.683c-0.354,0-0.641,0.287-0.641,0.642s0.287,0.641,0.641,0.641h9.621c0.354,0,0.642-0.286,0.642-0.641S11.657,15.576,11.304,15.576z"></path>
+      </svg>
+      <svg class="svg-icon" id="arrow_svg" viewBox="0 0 20 20">
+        <path fill="none" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+      </svg>
+    </button>
+
+    <div class="stats-container" >
+      <div class="tabcontent">
+        <canvas id="driverScore"></canvas>
+      </div>
+    </div>
+  </div>
   <footer class="footer">
     <%- include('./partials/footer.ejs') %>
   </footer>
 </body>
+<script defer src="/assets/scripts/stats.js"></script>
 </html>
