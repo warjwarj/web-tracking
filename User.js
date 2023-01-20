@@ -5,6 +5,10 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
     permLevel: Number,
+    settings: {
+        type: Object,
+        default: {}
+    },
     id: String
 })
 
