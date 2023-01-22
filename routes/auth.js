@@ -75,7 +75,6 @@ router.post('/register', checkAuth, checkPermLvl(3, 'you cannot create a user as
             email: req.body.email,
             password: hashedPassword,
             permLevel: req.body.permLevel,
-            settings: {},
             id: Date().toString()
         })
         res.redirect('/auth/register')
