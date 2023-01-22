@@ -7,7 +7,15 @@ const userSchema = mongoose.Schema({
     permLevel: Number,
     settings: {
         type: Object,
-        default: {}
+        default: {
+            weightConfig: {
+                speedingCount: 1,
+                harshBrakingCount: 1,
+                HarshAccelerationCount: 1,
+                harshCorneringCOunt: 1,
+                idlingCount: 1
+            }
+        }
     },
     id: String
 })
