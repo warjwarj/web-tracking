@@ -4,11 +4,6 @@
   --dark-grey: #5c5e5d;
 }
 
-body {
-    margin: 0;
-    font-family: Helvetica, sans-serif;
-    background-color: #f4f4f4;
-  }
   
   a {
     color: white;
@@ -174,13 +169,11 @@ body {
 /* footer */
 
 .footer {
-  position: static;
+  margin-top: auto;
+  padding: 5px;
   display: inline-block;
-  left: 0;
-  bottom: 0;
   width: 100%;
   background-color: var(--dark-grey);
   color: white;
-  min-height: 2.7em;
-  z-index: 4;
+  align-self: flex-end;
 }

@@ -11,7 +11,8 @@ label {
     padding-bottom: 2em;
     width: fit-content;
     top: 3em;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .title img {
@@ -21,39 +22,29 @@ label {
     padding-bottom: 2em;
     width: fit-content;
     top: 3em;
+    margin: auto;
 }
 
 
-#main-register {
-    position: fixed;
+.main-register {
     background-color: var(--fwblue);
     color: white;
     font-size: 1.2em;
     height: fit-content;
     padding: 1em;
     width: fit-content;
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    margin: auto
 }
 
 #main-login {
-    position: fixed;
     background-color: var(--fwblue);
     color: white;
     font-size: 1.2em;
     height: fit-content;
     padding: 1em;
     width: fit-content;
-    position: absolute;
-    top: 10;
-    bottom: 4;
-    left: 0;
-    right: 0;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .input-field {

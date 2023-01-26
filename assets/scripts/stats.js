@@ -1,156 +1,39 @@
-const cfglol = {
-  "type": "bar",
-  "data": {
-      "datasets": [
-          {
-              "data": [
-                  {
-                      "driver": "Heather White",
-                      "distance": 76.63688329755678,
-                      "harshAccelerationCount": 344,
-                      "harshBrakingCount": 317,
-                      "harshCorneringCount": 708,
-                      "speedingCount": 79.2,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 8.2000732421875,
-                      "driverScore": 0
-                  },
-                  {
-                      "driver": "Chris Brock",
-                      "distance": 116.30165643244982,
-                      "harshAccelerationCount": 256,
-                      "harshBrakingCount": 237,
-                      "harshCorneringCount": 468,
-                      "speedingCount": 56,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 10.5999755859375,
-                      "driverScore": 53.72522200405938
-                  },
-                  {
-                      "driver": "Alexander Moore",
-                      "distance": 106.03132224688306,
-                      "harshAccelerationCount": 188,
-                      "harshBrakingCount": 173,
-                      "harshCorneringCount": 341,
-                      "speedingCount": 48,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 9.800048828125,
-                      "driverScore": 62.568573577662825
-                  },
-                  {
-                      "driver": "Timothy Corlett",
-                      "distance": 7.358238518238068,
-                      "harshAccelerationCount": 8,
-                      "harshBrakingCount": 5,
-                      "harshCorneringCount": 24,
-                      "speedingCount": 4,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 1.10009765625,
-                      "driverScore": 70.51376744226462
-                  },
-                  {
-                      "driver": "Richard Burchell",
-                      "distance": 57.033880554372445,
-                      "harshAccelerationCount": 64,
-                      "harshBrakingCount": 51,
-                      "harshCorneringCount": 126,
-                      "speedingCount": 9.600000000000001,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 6.699951171875,
-                      "driverScore": 76.74815409597517
-                  },
-                  {
-                      "driver": "Keith Powrie",
-                      "distance": 70.3362526036799,
-                      "harshAccelerationCount": 37,
-                      "harshBrakingCount": 48,
-                      "harshCorneringCount": 152,
-                      "speedingCount": 10.4,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 8,
-                      "driverScore": 81.38642642103878
-                  },
-                  {
-                      "driver": "Steven Sing-Bhaker",
-                      "distance": 55.36256415233947,
-                      "harshAccelerationCount": 19,
-                      "harshBrakingCount": 35,
-                      "harshCorneringCount": 74,
-                      "speedingCount": 12.8,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 7.9000244140625,
-                      "driverScore": 86.54152818084434
-                  },
-                  {
-                      "driver": "Corey Schofield",
-                      "distance": 8.698567539453506,
-                      "harshAccelerationCount": 6,
-                      "harshBrakingCount": 6,
-                      "harshCorneringCount": 10,
-                      "speedingCount": 0,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 1.5999755859375,
-                      "driverScore": 86.61605226052704
-                  },
-                  {
-                      "driver": "John Clarke Wayne             ",
-                      "distance": 111.0197546184063,
-                      "harshAccelerationCount": 39,
-                      "harshBrakingCount": 60,
-                      "harshCorneringCount": 138,
-                      "speedingCount": 11.200000000000001,
-                      "idlingCount": 1,
-                      "totalFuelUsed": 10.199951171875,
-                      "driverScore": 88.1216240625926
-                  },
-                  {
-                      "driver": "Raymond Baccino",
-                      "distance": 2.794262170791626,
-                      "harshAccelerationCount": 0,
-                      "harshBrakingCount": 0,
-                      "harshCorneringCount": 6,
-                      "speedingCount": 0,
-                      "idlingCount": 0,
-                      "totalFuelUsed": 0.4000244140625,
-                      "driverScore": 88.63698996140246
-                  }
-              ]
-          }
-      ],
-      "labels": [
-          "Heather White",
-          "Chris Brock",
-          "Alexander Moore",
-          "Timothy Corlett",
-          "Richard Burchell",
-          "Keith Powrie",
-          "Steven Sing-Bhaker",
-          "Corey Schofield",
-          "John Clarke Wayne",
-          "Raymond Baccino"
-      ]
-  },
-  "options": {
-      "parsing": {
-          "xAxisKey": "driver",
-          "yAxisKey": "driverScore"
-      }
-  }
-}
+const charts = [];
+
+function getChartConfig (){ return {  type: null, data: {}, options: {} } }
+
+function getChartData (){ return { datasets: [], labels: [] } }
+
+function getChartDataset (){ return { label: '', fill: true, data: [] } }
 
 function getCheckedRadio(nameOfGroup){
   const group = document.getElementsByName(nameOfGroup)
   for (let i=0; i < group.length; i++){
     if (group[i].checked){ console.log(group[i].id); return group[i].id; }
   }
+  const random = Math.floor(Math.random() * group.length)
+  return group[random].id; // if none checkedn return a random one
 }
 
-async function requestPerformanceData(query=''){
-  let request = await fetch('/stats/data?driver=' + query, { 
-    method: 'GET',  
+async function requestPerformanceData(queryParams=''){
+  function formatParams(params){
+    if (!params){ return ''; }
+    let paramstring = ''
+    for (let [key, val] of Object.entries(params)){ 
+      key = '?' + key
+      val = '=' + val
+      paramstring += key + val;
+    }
+    return paramstring
+  }
+  let request = await fetch('/stats/data' + formatParams(queryParams), {
+    method: 'GET',
     rejectUnauthorized: false,
   })
-  return await request.json()
+  let driverdata = await request.json()
+  console.log(driverdata)
+  if (driverdata.length){ driverdata = customSort(driverdata, "driverScore"); }
+  return driverdata
 }
 
 function customSort(data, key2SortOn){
@@ -166,36 +49,91 @@ function customSort(data, key2SortOn){
   return data.sort(customCompare)
 }
 
-async function getDriverStats(){ return await requestPerformanceData(getCheckedRadio("selectedDriver")); }
+async function getCheckedDriverStats(driver){ return await requestPerformanceData(driver); }
 
 async function getFleetStats(){ return await requestPerformanceData(); }
 
-// keys is an array like [xkey, ykey]
-function makeBarChartConfig(type, keys, driverdata){
-  if (driverdata.length){ driverdata = customSort(driverdata, "driverScore"); }
-  const cfg = {
-    type: null,
-    data: {
-      datasets: [{
-        data: [],
-      }],
-      labels: []
-    },
-    options: {
-      parsing: {}
+/*
+
+The purpose of this functnio is to return the 'cfg' object
+
+easier to control the keys and format myself rather than try and dynamically define parsing options (probably)
+
+keys can be all (for radar/polar chart types), or an array where [0] is x axis and [1] is y axis (for bar/line charts)
+pass driverdata as an array even if length is one
+
+*/
+
+function formatConfigDriver(chartType, driverData, keys){
+  const cfg = getChartConfig();
+  const dataobj = getChartData();
+  const possiblekeys = Object.keys(driverData[0]).filter(val => val != 'driver' && val != 'totalFuelUsed' && val != 'driverScore' && val != 'distance')
+  // charts that have multiple 'axis', multiple data points, radar, polar, etc. Practically also use to determine if need data for whole fleet or no
+  if (keys == 'all'){
+    const datasets = []
+    for (let i in driverData){ // each driver obj - create a dataset for each
+      const dataset = getChartDataset()
+      dataset.label = driverData[i].driver
+      for (let j of possiblekeys){ // loop through keys
+        dataset.data.push(driverData[i][j])
+      }
+      datasets.push(dataset);
+      dataobj.datasets = datasets;
+      dataobj.labels = possiblekeys;
+      cfg.type = chartType;
+      cfg.data = dataobj;
+      return cfg
     }
+  } else {
+
+    const xkey = keys[0]
+    const ykey = keys[1]
   }
-  cfg.type = type
-  cfg.data.datasets[0].data = driverdata.slice(0, 10)
-  cfg.options.parsing.xAxisKey = keys[0];
-  cfg.options.parsing.yAxisKey = keys[1]
-  for (let i of driverdata) { cfg.data.labels.push(i.driver.trim()); if(driverdata.indexOf(i) == 9){ break; } }
-  console.log(cfg)
 }
 
-async function drawCharts(){
-  let cfg = makeBarChartConfig("bar", ['driver', 'driverScore'], await getDriverStats())
-  let driverScoreBar = new Chart(document.getElementById("driverScore"), cfglol) 
+function formatDataFleet(){
+  const cfg = getChartConfig();
+  const dataobj = getChartData();
+}
+
+async function drawCharts(driver, fleet){
+  if (driver){
+    charts.forEach(chart => chart.destroy()) // clear charts on page
+    const data = []; data.push(driver) // get and add driver object/s to an array
+    const cfg = formatConfigDriver('polarArea', data, 'all'); // make config with driver/s data
+    let driverSummary = new Chart(document.getElementById("driverSummary"), cfg)
+    charts.push(driverSummary)
+  }
+  else if (fleet){
+    charts.forEach(chart => chart.destroy())
+    const data = []; data.push
+  }
+}
+
+const fleetStatsContainer = document.getElementById("fleet-stats-container")
+const driverStatsContainer = document.getElementById('driver-stats-container')
+
+async function updateVisualsDriver(){
+  if (driverStatsContainer.style.display != 'block'){ 
+    driverStatsContainer.style.display = 'block'; 
+    fleetStatsContainer.style.display = 'none';
+  }
+  const driver = getCheckedRadio('selectedDriver')
+  const driverStats = await requestPerformanceData({ 'driver': driver })
+  document.getElementById('driver-name').innerHTML = driverStats.driver
+  document.getElementById('driver-score').innerHTML = driverStats.driverScore;
+  drawCharts(driverStats, false)
+
+}
+
+async function updateVisualsFleet(){
+  if (fleetStatsContainer.style.display != 'block'){ 
+    fleetStatsContainer.style.display = 'block' 
+    driverStatsContainer.style.display = 'none';
+  }
+  const fleet = getCheckedRadio('selectedFleet')
+  const fleetStats = await requestPerformanceData({'fleet': fleet})
+
 }
 
 /* 
@@ -203,24 +141,26 @@ async function drawCharts(){
 functions that run on script load below 
 
 */
-
-const input = document.getElementById('searchName');
-input.onkeyup = function () {
-  let filter = input.value.toUpperCase();
-  const list = document.getElementsByClassName('driver-li');
-  for (let i=0; i < list.length; i++) {
-    let name = list[i].textContent;
-    if (name.toUpperCase().trim().indexOf(filter) == 0){
-      list[i].style.display = 'list-item';
-    } else {
-      list[i].style.display = 'none';
+function sortFunc(searchbarid){
+  const input = document.getElementById(searchbarid);
+  input.onkeyup = function () {
+    let filter = input.value.toUpperCase();
+    const list = document.getElementsByClassName('driver-li');
+    for (let i=0; i < list.length; i++) {
+      let name = list[i].textContent;
+      if (name.toUpperCase().trim().indexOf(filter) == 0){
+        list[i].style.display = 'list-item';
+      } else {
+        list[i].style.display = 'none';
+      }
     }
   }
 }
-
+sortFunc('searchName')
+sortFunc('searchFleet')
 
 function openTab(evt, tabName) {
-  var i, tabcontent, tablinks;
+  let i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
@@ -237,4 +177,5 @@ function openTab(evt, tabName) {
 document.getElementById("defaultOpen").click();
 
 
-document.getElementById("induvidualDriverStats").addEventListener("click", drawCharts)
+document.getElementById("induvidualDriverStats").addEventListener("click", updateVisualsDriver)
+document.getElementById("fleetStats").addEventListener("click", updateVisualsFleet)

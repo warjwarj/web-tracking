@@ -1,13 +1,17 @@
 body, html {
+    display: block;
     height: calc(100vh - 75px);
     margin: 0;
 }
 
-/* no footer */
-
-.footer {
-    display: none;
+li {
+    list-style: none
 }
+
+ul {
+    padding-left: 0;
+}
+
 
 /* all that is below header */
 
@@ -30,16 +34,21 @@ body, html {
     flex-grow: 1;
 }
 
-.footer {
-    display: none;
+@media (min-width: 48em){
+    .menu-container{
+        width: 100%;
+    }
 }
 
-li {
-    list-style: none
+.inner-stats-container {
+    display: flex;
+    flex-direction: column;
 }
 
-ul {
-    padding-left: 0;
+.main-block {
+    padding: 2em;
+    max-width: 60%;
+    max-height: 100%
 }
 
 @media (min-width: 48em){
