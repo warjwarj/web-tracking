@@ -20,4 +20,6 @@ TODO:
 
  - automate as much of the data storage as possible (as little processing upon client request as possible)
 
+ - weightconfig needs to be in company scope, manager + admin can change
+
  
