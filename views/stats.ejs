@@ -23,21 +23,29 @@
       </div>
       
       <div id="Induvidual Driver" class="tabcontent">
-        <h3>Choose a driver</h3>
+        <h3>Choose a Driver</h3>
         <input type="text" id="searchName" class="form-control mr-sm-2" placeholder="Enter a Name.." tabindex="2"></tr><label for="searchName" style="display: none">search on a driver's name</label>
         <button type="submit" class="btn btn-primary" style="margin-top: 1em;" id="induvidualDriverStats">Load Stats</button>
         <div class="tabcontent-inner">
         <ul>
           <% for (let i=0; i < drivers.length; i++){ %>
-            <li class="driver-li"> <input type="radio" name="selectedDriver" id="<%= drivers[i].driver %>"> <%= drivers[i].driver %> </li>
+            <li class="driver-li"> <input type="radio" name="selectedDriver" id="<%= drivers[i].driver %>" selected > <%= drivers[i].driver %> </li>
           <% } %>
         </ul>
       </div>
       </div>
       
       <div id="Whole Fleet" class="tabcontent">
-        <h3>TO BE IMPLEMENTED</h3>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium eius nesciunt sed quisquam ex beatae atque vero molestiae repellendus quis. Esse et facilis quas veniam suscipit numquam, provident debitis velit!</p> 
+        <h3>Choose a Fleet</h3>
+        <input type="text" id="searchFleet" class="form-control mr-sm-2" placeholder="Enter a fleet.." tabindex="2"></tr><label for="searchFleet" style="display: none">search on a driver's name</label>
+        <button type="submit" class="btn btn-primary" style="margin-top: 1em;" id="fleetStats">Load Stats</button>
+        <div class="tabcontent-inner">
+        <ul>
+          <% for (let i=0; i < fleets.length; i++){ %>
+            <li class="driver-li"> <input type="radio" name="selectedFleet" id="<%= fleets[i].fleetName %>"> <%= fleets[i].fleetName %> </li>
+          <% } %>
+        </ul>
+      </div>
       </div>
       
       <div id="Settings" class="tabcontent" >
@@ -67,8 +75,24 @@
       </div>
     </div>
 
-    <div class="stats-container">
-      <canvas id="driverScore"></canvas>
+    <div id="driver-stats-container" class="stats-container" style="display: block">
+      <div class="inner-stats-container">
+        <div class="main-block">
+          <h5 id="driver-name"></h5><strong id="driver-score"></strong>
+        </div>
+        <div class="main-block">
+          <canvas id="driverSummary"></canvas>
+        </div>
+      </div>
+    </div>
+    <div id="fleet-stats-container" class="stats-container" style="display: none">
+      <div class="inner-stats-container">
+        <div class="main-block">
+        </div>
+        <div class="main-block">
+          <canvas id="fleetSummary"></canvas>
+        </div>
+      </div>
     </div>
 
   </div>

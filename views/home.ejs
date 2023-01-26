@@ -2,14 +2,37 @@
 <html lang="en">
 <head>
   <%- include('./partials/head.ejs') %>
+  <link rel="stylesheet" href="/assets/stylesheets/home.css">
   <title>Home</title>
 </head>
 <body>
   <header class="header">
     <%- include('./partials/header.ejs') %>
   </header>
+    <div id="stats_root">
+      <% if (scope == 'driver'){ %>
+        <div class="title-block"><span>Welcome, </span><span><%= scopeName %></span></div>
+        <div class="main-data"><strong>Driver Score: </strong><small><%= driverScore %></small></div>
+        <div class="main-data"><strong>Average MPG: </strong><small><%= driversMPG %></small></div>
+        <div class="main-data"><canvas id="driver-events-summary"></canvas></div>
+      <% } %>
+      <% if (scope == 'fleet'){ %>
+        <div class="title-block"><h4>Stats for: </h4><span><%= scopeName %></span></div>
+      <% } %>
+    </div>
   <footer class="footer">
     <%- include('./partials/footer.ejs') %>
   </footer>
+
+
+  <span id="pl" data-val="<%= user.permLevel %>" style="display: none"></span>
+  <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+  <script data-type="module" type="text/babel" src="assets/scripts/home.js"></script>
+
 </body>
+  <script>
+    driverData = '<%= JSON.stringify(scopeData) %>'
+  </script>
 </html>
