@@ -1,0 +1,15 @@
+.stats-root {
+    font-weight: 500;
+}
+
+.title-block {
+    align-items: center;
+    padding: 1rem;
+    font-size: x-large;
+}
+
+.main-data {
+    align-items: center;
+    padding: 1rem;
+    display: flexbox;
+}
