@@ -6,6 +6,8 @@ Do 'npm run devstart' to start server, default port 3000
 
 TODO:
 
+ -
+
  - get SSL cert
 
  - implement user scope = CMS like tree structure
