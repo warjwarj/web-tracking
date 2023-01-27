@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <%- include('./partials/head.ejs') %>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.1/dist/chart.umd.min.js"></script>
   <link rel="stylesheet" href="/assets/stylesheets/home.css">
   <title>Home</title>
 </head>
@@ -12,27 +13,28 @@
     <div id="stats_root">
       <% if (scope == 'driver'){ %>
         <div class="title-block"><span>Welcome, </span><span><%= scopeName %></span></div>
-        <div class="main-data"><strong>Driver Score: </strong><small><%= driverScore %></small></div>
+        <div class="main-data"><strong>Driver Score: </strong><small><%= Math.round(driverScore * 10) / 10 %></small></div>
+        <div class="main-data"><strong>Fleet Avg Score: </strong><small><%= Math.round(fleetMean * 10) / 10 %></small></div>
         <div class="main-data"><strong>Average MPG: </strong><small><%= driversMPG %></small></div>
-        <div class="main-data"><canvas id="driver-events-summary"></canvas></div>
+        <div class="main-data"><strong>Summary of undesireable events: </strong><small>The below graph shows the amount of undesireable events that the tracker has recorded in <%= Math.round(scopeData.distance * 10) / 10 %> miles. </small>
+          <br><canvas class="rendered-graph" id="driver-events-summary"></canvas>
+        </div>
       <% } %>
       <% if (scope == 'fleet'){ %>
         <div class="title-block"><h4>Stats for: </h4><span><%= scopeName %></span></div>
+        <div class="main-data"><strong>Summary of driver scores. </strong><small>The below graph shows all of the driver scores in your fleet.</small>
+          <br><canvas class="rendered-graph" id="driver-events-summary"></canvas>
+        </div>
       <% } %>
     </div>
   <footer class="footer">
     <%- include('./partials/footer.ejs') %>
   </footer>
 
-
-  <span id="pl" data-val="<%= user.permLevel %>" style="display: none"></span>
   <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
-  <script data-type="module" type="text/babel" src="assets/scripts/home.js"></script>
-
+  <div id="userdata" data-scope="<%= scope %>" data-pl="<%= user.permLevel %>" data-scopedata="<%= JSON.stringify(scopeData)%>" style="display: none"></div>
+  <script src="assets/scripts/home.js" defer></script>
 </body>
-  <script>
-    driverData = '<%= JSON.stringify(scopeData) %>'
-  </script>
 </html>
