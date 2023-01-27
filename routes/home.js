@@ -36,28 +36,31 @@ router.get('/', checkAuth, async (req, res) => {
   const user = await req.user;
   if (user.permLevel == 1){
     const drivername = 'Alan Riach' // FIND SOME WAY TO MAKE THIS DYNAMIC
-    const scopeData = Scoring.calculateScoreDriver(weightConfig, (filler.find(obj => obj.driver == drivername)), 30);
+    const scopeData = Scoring.getScoreDriver(drivername, weightConfig, 30);
+    const fleetMean = Scoring.calcMeanFleetScore(filler, weightConfig);
     for (let i of filler){
       if (i.driver == drivername){
         return res.render('home.ejs', {
           user: user,
           scope: 'driver',
           scopeData: scopeData,
-          scopeName: scopeData['driver'],
+          scopeName: drivername,
           driverScore: scopeData['driverScore'],
-          driversMPG: (scopeData['distance'] / scopeData['totalFuelUsed'])
+          fleetMean: fleetMean,
+          driversMPG: Math.round((scopeData['distance'] / scopeData['totalFuelUsed']) * 10) / 10
         })
       }
     }
   }
   else if (user.permLevel > 1){
-    const scopeData = gethomedata(filler, 'fleet', 'General Traffic')
+    const scopeData = Scoring.calculateScoreFullFleet(filler, user.settings.weightConfig)
     const weighted = Scoring.calculateScoreFullFleet(scopeData, weightConfig);
     const scope = 'fleet'
     return res.render('home.ejs', {
       user: user,
       scope: 'fleet',
       scopeName: 'General Traffic',
+      scopeData: scopeData,
       minMax: getMinMax(scopeData, 'driverScore'),
     })
   }
