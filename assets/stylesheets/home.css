@@ -1,5 +1,6 @@
 .stats-root {
     font-weight: 500;
+
 }
 
 .title-block {
@@ -11,5 +12,10 @@
 .main-data {
     align-items: center;
     padding: 1rem;
-    display: flexbox;
+    max-width: 30rem;
+}
+
+
+.rendered-graph {
+    margin: 1em;
 }
