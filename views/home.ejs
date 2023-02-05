@@ -17,24 +17,25 @@
         <div class="main-data"><strong>Fleet Avg Score: </strong><small><%= Math.round(fleetMean * 10) / 10 %></small></div>
         <div class="main-data"><strong>Average MPG: </strong><small><%= driversMPG %></small></div>
         <div class="main-data"><strong>Summary of undesireable events: </strong><small>The below graph shows the amount of undesireable events that the tracker has recorded in <%= Math.round(scopeData.distance * 10) / 10 %> miles. </small>
-          <br><canvas class="rendered-graph" id="driver-events-summary"></canvas>
+          <br><div class="canvas-wrapper"><canvas class="rendered-graph" id="driver-events-summary"></canvas></div>
         </div>
       <% } %>
       <% if (scope == 'fleet'){ %>
-        <div class="title-block"><h4>Stats for: </h4><span><%= scopeName %></span></div>
-        <div class="main-data"><strong>Summary of driver scores. </strong><small>The below graph shows all of the driver scores in your fleet.</small>
-          <br><canvas class="rendered-graph" id="driver-events-summary"></canvas>
+        <div class="title-block"><span>Stats for: </span><span><%= scopeName %></span></div>
+        <div id="score-graph" class="main-data"><strong>Summary of driver scores. </strong><small>The below graph details the scores of the drivers in your fleet.</small>
+          <br><canvas class="rendered-graph" id="fleet-score-summary"></canvas>
         </div>
+        <div class="main-data"><strong id="score-summary-strong"></strong>Mean Score in fleet: <small id="score-summary-small"><%= fleetMeanScore %></small></div>
+        <div id="mpg-graph" class="main-data"><strong>Summary of driver's mpg. </strong><small>The below graph details the MPG figures of the drivers in your fleet.</small>
+          <br><canvas class="rendered-graph" id="fleet-mpg-summary"></canvas>
+        </div>
+        <div class="main-data"><strong id="mpg-summary-strong"></strong>Mean MPG in Fleet: <small id="mpg-summary-small"><%= fleetMeanMpg %></small></div>
       <% } %>
     </div>
   <footer class="footer">
     <%- include('./partials/footer.ejs') %>
   </footer>
-
-  <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
-  <div id="userdata" data-scope="<%= scope %>" data-pl="<%= user.permLevel %>" data-scopedata="<%= JSON.stringify(scopeData)%>" style="display: none"></div>
+  <div id="userdata" data-avgmpg="<%= fleetMeanMpg %>" data-avgscore="<%= fleetMeanScore %>" data-scope="<%= scope %>" data-pl="<%= user.permLevel %>" data-scopedata="<%= JSON.stringify(scopeData)%>" style="display: none"></div>
   <script src="assets/scripts/home.js" defer></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
     <%- include('./partials/header.ejs') %> 
   </header>
 
-  <div class="containerko">
+  <div class="stats-wrapper">
 
     <div class="menu-container" id="menu-container">
       <div class="tab">
@@ -78,10 +78,12 @@
     <div id="driver-stats-container" class="stats-container" style="display: block">
       <div class="inner-stats-container">
         <div class="main-block">
-          <h5 id="driver-name"></h5><strong id="driver-score"></strong>
+          <h5 id="driver-name"></h5>
+          <strong id="driver-score"></strong><br>
+          <strong id="driver-mpg"></strong>
         </div>
         <div class="main-block">
-          <canvas id="driverSummary"></canvas>
+          <div class="canvas-wrapper"><canvas id="driverSummary"></canvas></div>
         </div>
       </div>
     </div>

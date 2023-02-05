@@ -62,8 +62,11 @@ router.get('/register', checkAuth, async (req, res) => {
 })
 
 router.post('/register', checkAuth, checkPermLvl(3, 'you cannot create a user as you are not an admin'), async (req, res) => {
-    console.log(req.body)
-    if (req.user.permLevel < 4 && req.body.permLevel < 3){ res.render('error.ejs', { reason: 'you cannot create a user with the same permision level as your own.' }) }
+    if (req.user.permLevel < 4 && req.body.permLevel < 3){ 
+        res.render('error.ejs', { 
+            reason: 'you cannot create a user with the same permision level as your own.' 
+        }) 
+    }
     try {
         if (await queryOnEmail(req.body.email) !== null){
             req.flash('error', 'email already registered')

@@ -1,7 +1,7 @@
 .stats-root {
     font-weight: 500;
-
 }
+
 
 .title-block {
     align-items: center;
@@ -12,10 +12,16 @@
 .main-data {
     align-items: center;
     padding: 1rem;
-    max-width: 30rem;
+    max-height: 500px;
+    position: relative
+}
+
+.canvas-wrapper{
+    height: 400px;
 }
 
 
 .rendered-graph {
     margin: 1em;
+    max-height: max-content;
 }

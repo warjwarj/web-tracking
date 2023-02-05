@@ -1,23 +1,17 @@
 :root{
-    --fwblue: #006F86;
-    --fworange: #ec6408;
-    --dark-grey: #5c5e5d;
-    --light-grey: #b6b8b6;
-  }
+  --fwblue: #006F86;
+  --fworange: #ec6408;
+  --dark-grey: #5c5e5d;
+  --light-grey: #b6b8b6;
+}
 
 body {
   display: flex;
   flex-direction: column;
-  background-color: var(--light-grey);
   margin: 0;
   padding: 0;
   font-weight: 500;
   height: 100%;
-  overflow: auto
-}
-
-html {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  overflow: auto;
+  background-color: #b6b8b6;
 }

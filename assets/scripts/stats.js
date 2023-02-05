@@ -67,7 +67,7 @@ pass driverdata as an array even if length is one
 function formatConfigDriver(chartType, driverData, keys){
   const cfg = getChartConfig();
   const dataobj = getChartData();
-  const possiblekeys = Object.keys(driverData[0]).filter(val => val != 'driver' && val != 'totalFuelUsed' && val != 'driverScore' && val != 'distance')
+  const possiblekeys = Object.keys(driverData[0]).filter(val => val != 'driver' && val != 'totalFuelUsed' && val != 'driverScore' && val != 'distance' && val != 'mpg')
   // charts that have multiple 'axis', multiple data points, radar, polar, etc. Practically also use to determine if need data for whole fleet or no
   if (keys == 'all'){
     const datasets = []
@@ -121,7 +121,8 @@ async function updateVisualsDriver(){
   const driver = getCheckedRadio('selectedDriver')
   const driverStats = await requestPerformanceData({ 'driver': driver })
   document.getElementById('driver-name').innerHTML = driverStats.driver
-  document.getElementById('driver-score').innerHTML = driverStats.driverScore;
+  document.getElementById('driver-score').innerHTML = "Driver Score: " + driverStats.driverScore;
+  document.getElementById('driver-mpg').innerHTML = "Driver Avg MPG: " + driverStats.mpg;
   drawCharts(driverStats, false)
 
 }
@@ -173,9 +174,28 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " active";
 }
 
+// const menu_btn = document.getElementById("collapse_button");
+// const menu_svg = document.getElementById("menu_svg");
+// const arrow_svg = document.getElementById("arrow_svg");
+// const menu = document.getElementById("menu-wrapper");
+
+// collapse_button.addEventListener("click", () => {
+//   if (window.getComputedStyle(menu, null).display == "block"){
+//     menu.style.display = "none";
+//     menu_btn.style.left = "2rem"
+//     arrow_svg.style.display = "none";
+//     menu_svg.style.display = "block";
+
+//   } else {
+//     menu.style.display = "block";
+//     menu_btn.style.left = "20.6rem";
+//     arrow_svg.style.display = "inline";
+//     menu_svg.style.display = "none";
+//   }
+// })
+
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
-
 
 document.getElementById("induvidualDriverStats").addEventListener("click", updateVisualsDriver)
 document.getElementById("fleetStats").addEventListener("click", updateVisualsFleet)

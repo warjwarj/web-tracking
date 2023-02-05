@@ -1,4 +1,3 @@
-const data = require("./fillerdata");
 
 class Scoring {
 
@@ -32,11 +31,13 @@ class Scoring {
           }
         }
         return data.sort(customCompare)
-      }   
+    }   
 
     // CALCULATE THE SCORE OF THE WHOLE FLEET
     static calculateScoreFullFleet(data, weightConfig){
+    if (data !== undefined && weightConfig !== undefined){
         let vals2Consider = Object.keys(weightConfig)
+        if (vals2Consider.length !== 5){ throw new TypeError('weightConfig is of an invalid format') }
         let max = 0; // min value found in dataset
         let min = 100; // max value found in dataset
         for (let i=0; i < data.length; i++){
@@ -53,23 +54,29 @@ class Scoring {
         // extrapolate the driver's scores
         data.forEach(driver => {
             driver.driverScore = 100 - (( driver.driverScore / range ) * 100);
+            driver.mpg = Math.round((driver.distance / (driver.totalFuelUsed / 4.54609)) * 10) / 10
         });
-        return this.customSort(data, 'driverScore');
+        return data;
+    } else {
+        throw new TypeError('one or more of the paramaters passed to this function are undefined')
+    }
     }
 
     // GET THE FLEET AVG DRIVERSCORE
-    static calcMeanFleetScore(data, weightConfig){
+    static calcMeanFleetItem(data, weightConfig, datapoint){
+        if (data[0][datapoint] === undefined){ throw new ReferenceError('datapoint is not present in driver obj')}
         let scoredData = this.calculateScoreFullFleet(data, weightConfig);
         let sum = 0, num = 0;
         for (let i of scoredData){
-            sum += i.driverScore
+            if (i[datapoint] == Infinity || i[datapoint] == undefined || i[datapoint] == undefined){ continue; }
+            sum += i[datapoint]
             num++;
         }
         return sum / num
     }
     
     // GET RANGE DYNAMICALLY
-    static getScoreDriver(drivername, weightConfig){
+    static getScoreDriver(data, drivername, weightConfig){
         let scoredFleetData = this.calculateScoreFullFleet(data, weightConfig);
         for (let i of scoredFleetData){
             if (i.driver == drivername){
@@ -77,7 +84,6 @@ class Scoring {
             }
         }
     }
-
 }
 
 module.exports = Scoring
